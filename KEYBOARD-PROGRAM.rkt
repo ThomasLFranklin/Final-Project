@@ -38,13 +38,13 @@
 
 
 ;Instuments
-(define trumpet (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Trumpet.wav")))
-(define flute (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Pan Flute.wav")))
-(define sax (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Sax.wav")))
-(define strings (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Synth Strings.wav")))
-(define musicbox (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Music Box.wav")))
-(define synth (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Synth Pad.wav")))
-(define harp (rs-scale .5 (rs-read "D:\\Documents\\Keyboard program\\Harp.wav")))
+(define trumpet (rs-scale .5 (rs-read "Trumpet.wav")))
+(define flute (rs-scale .5 (rs-read "Pan Flute.wav")))
+(define sax (rs-scale .5 (rs-read "Sax.wav")))
+(define strings (rs-scale .5 (rs-read "Synth Strings.wav")))
+(define musicbox (rs-scale .5 (rs-read "Music Box.wav")))
+(define synth (rs-scale .5 (rs-read "Synth Pad.wav")))
+(define harp (rs-scale .5 (rs-read "Harp.wav")))
 ; f(nn)= 440(2^((1/12)(nn-69))) *NOTE* In a (successful) effort to reduce lag, this ugly function is no longer used
   
   
