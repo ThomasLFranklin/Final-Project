@@ -1,8 +1,8 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname KEYBOARD-PROGRAM) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ; Electronic Keyboard Program
-;   By Thomas Franklin, Nish Dara, Blaine Weeks, Devon Grove
+;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
 ; Required Packages
 (require rsound)
@@ -19,11 +19,9 @@
 ; Program Features Wishlist and Bug Fixes:
 ;  Turn the light for each note off after a certain amount of time
 ;  Beautify the interface
-;  Add a volume slider (in beta)
 ;  Possibly a metronome feature?
 ;  Possibly a demo songs feature?
 ;  Add the names of the keys used to play each note on the interface
-;  Work on mkaing the code for the interface more readable
 
 
 ; Worldstate is a structure of 4 elements
@@ -96,7 +94,7 @@
                                   [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-note-num w) 8 (world-oct w) (world-vol w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x 300) (< x 1300) (> y 178) (< y 202)) (make-world (world-note-num w) (world-inst w) (world-oct w) (/ (- x 300) 1000))]
+                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-note-num w) (world-inst w) (world-oct w) (/ (- x 100) 1000))]
                            [else w])]
     [else w])) 
   
@@ -120,14 +118,14 @@
 ; Produces an image of a keyboard 
 ; Numerical Constants
 (define background (make-color 43 147 208))
-(define len 1600)
-(define wid 1000)
-(define wkeylen 100)
-(define wkeywid 450)
-(define wkey-y-pos 450)
-(define bkeylen 66)
-(define bkeywid 260)
-(define bkey-y-pos 355)
+(define len 1200)
+(define wid 750)
+(define wkeylen 75)
+(define wkeywid 310)
+(define wkey-y-pos 340)
+(define bkeylen 48)
+(define bkeywid 170)
+(define bkey-y-pos 270)
 
 ; Color change functions
 (define (wk1 w) (if (= (world-note-num w) 48) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
@@ -184,46 +182,51 @@
                                             (wk12 w)
                                             (wk13 w)
                                             (wk14 w)) (/ len 2) wkey-y-pos (rectangle len wid "outline" background)))
-(define (black-keys w) (place-image 
-                        (bk1 w) (+ (* len 3/32) 17 22) bkey-y-pos
-                        (place-image 
-                         (bk2 w) (- (* len 7/32) 17 22) bkey-y-pos
-                         (place-image 
-                          (bk3 w) (+ (* len 9/32) 17 22) bkey-y-pos
-                          (place-image 
-                           (bk4 w) (+ (* len 11/32) 17 33) bkey-y-pos
-                           (place-image 
-                            (bk5 w) (- (* len 15/32) 17 22) bkey-y-pos
-                            (place-image
-                             (bk6 w) (+ (* len 17/32) 17 22) bkey-y-pos
-                             (place-image 
-                              (bk7 w) (- (* len 21/32) 17 22) bkey-y-pos
-                              (place-image 
-                               (bk8 w) (+ (* len 23/32) 17 22) bkey-y-pos
-                               (place-image 
-                                (bk9 w) (+ (* len 25/32) 17 33) bkey-y-pos
-                                (place-image 
-                                 (bk10 w) (- (* len 29/32) 17 22) bkey-y-pos
-                                 (rectangle len wid "outline" background))))))))))))
+(define (black-keys w) (place-images 
+                        (list (bk1 w)
+                              (bk2 w)
+                              (bk3 w)
+                              (bk4 w)
+                              (bk5 w)
+                              (bk6 w)
+                              (bk7 w)
+                              (bk8 w)
+                              (bk9 w)
+                              (bk10 w))
+                        (list (make-posn (- (* len 2/16) 8) bkey-y-pos)
+                              (make-posn (+ (* len 3/16) 8) bkey-y-pos)
+                              (make-posn (- (* len 5/16) 8) bkey-y-pos)
+                              (make-posn (* len 6/16) bkey-y-pos)
+                              (make-posn (+ (* len 7/16) 8) bkey-y-pos)
+                              (make-posn (- (* len 9/16) 8) bkey-y-pos)
+                              (make-posn (+ (* len 10/16) 8) bkey-y-pos)
+                              (make-posn (- (* len 12/16) 8) bkey-y-pos)
+                              (make-posn (* len 13/16) bkey-y-pos)
+                              (make-posn (+ (* len 14/16) 8) bkey-y-pos))
+                      (rectangle len wid "outline" background)))
 
 ; Functions for text and extras
 ; Takes in a world and produces text based on the current range of the keyboard
-(define len1 600)
-(define wid1 225)
+(define len1 (* 6 wkeylen))
+(define wid1 200)
 (define box-text1 (rectangle len1 wid1 "solid" (make-color 40 150 250)))
 
-(define(text1 w) (place-image
-                  (text/font "Range of Notes" 30 "red" "Palatino Linotype" 'default 'normal 'normal #t) (/ len1 2) 24 
-                  (place-image
-                   (text "Press the up or down arrow keys to change the range of the notes." 20 "red") (/ len1 2) 66 
-                   (place-image
-                    (text "Current Note Range (in MIDI note numbers):" 24 "red") (/ len1 2) (/ wid1 2)
-                    (place-image
-                     (text (string-append (number->string (+ 48 (* (world-oct w) 24))) "-" (number->string (+ 71 (* (world-oct w) 24)))) 50 "red") (/ len1 2) (* wid1 3/4) box-text1)))))
+(define(text1 w) (place-images
+                  (list
+                   (text/font "Range of Notes" 30 "red" "Palatino Linotype" 'default 'normal 'normal #t)
+                   (text "Press the up or down arrow keys to change the range of the notes." 15 "red")
+                   (text "Current Note Range (in MIDI note numbers):" 20 "red")
+                   (text (string-append (number->string (+ 48 (* (world-oct w) 24))) "-" (number->string (+ 71 (* (world-oct w) 24)))) 50 "red"))
+                  (list
+                   (make-posn (/ len1 2) 24)
+                   (make-posn (/ len1 2) 66 )
+                   (make-posn (/ len1 2) 90)
+                   (make-posn (/ len1 2) 145))
+                  box-text1))
 
 ; Text for the instrument selector
 (define (text2 w) (place-image
-                   (text "Instrument Selector" 30 "red") (/ len1 2) 24
+                   (text/font "Instrument Selector" 30 "red" "Palatino Linotype" 'default 'normal 'normal #t) (/ len1 2) 24
                    box-text1))
 
 (define inst1text (beside
@@ -271,66 +274,69 @@
 
 (define (slider w) (place-image
                     (add-line
-                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "red" 10 "solid" "round" "round")) (/ len 2) 190 (rectangle len wid "outline" background)))
+                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "red" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" background)))
 
 ; Main renedering function
-(define (key-board w) (place-image
-                       (text "Volume" 20 "black") (/ len 2) 130
-                       (place-image
-                        (text "0" 15 "black") 300 160
-                        (place-image
-                         (text "100" 15 "black") 1300 160
-                         (place-image
-                          (text "50" 15 "black") 800 160
-                          (place-image
-                           (slider w) (/ len 2) (/ wid 2)
-                           (place-image
-                            inst1text (+ (* len 3/32) (- (/ (image-width inst1text) 2) 8)) (* wid 4/5)
-                            (place-image
-                             inst2text (+ (* len 3/32) (- (/ (image-width inst2text) 2) 8)) (+ (* wid 4/5) 32)
-                             (place-image
-                              inst3text (+ (* len 3/32) (- (/ (image-width inst3text) 2) 8)) (+ (* wid 4/5) 64)
-                              (place-image
-                               inst4text (+ (* len 3/32) (- (/ (image-width inst4text) 2) 8)) (+ (* wid 4/5) 96)
-                               (place-image
-                                inst5text (+ (* len 1/4) (- (/ (image-width inst5text) 2) 8)) (* wid 4/5)
-                                (place-image
-                                 inst6text (+ (* len 1/4) (- (/ (image-width inst6text) 2) 8)) (+ (* wid 4/5) 32)
-                                 (place-image
-                                  inst7text (+ (* len 1/4) (- (/ (image-width inst7text) 2) 8)) (+ (* wid 4/5) 64)
-                                  (place-image
-                                   inst8text (+ (* len 1/4) (- (/ (image-width inst8text) 2) 8)) (+ (* wid 4/5) 96)
-                                   (place-image
-                                    (rectangle 16 16 "solid" (if (= (world-inst w) 1) "yellow" (make-color 40 150 250))) (* len 3/32) (* wid 4/5)
-                                    (place-image
-                                     (rectangle 16 16 "solid" (if (= (world-inst w) 2) "yellow" (make-color 40 150 250))) (* len 3/32) (+ (* wid 4/5) 32)
-                                     (place-image
-                                      (rectangle 16 16 "solid" (if (= (world-inst w) 3) "yellow" (make-color 40 150 250))) (* len 3/32) (+ (* wid 4/5) 64)
-                                      (place-image
-                                       (rectangle 16 16 "solid" (if (= (world-inst w) 4) "yellow" (make-color 40 150 250))) (* len 3/32) (+ (* wid 4/5) 96)
-                                       (place-image
-                                        (rectangle 16 16 "solid" (if (= (world-inst w) 5) "yellow" (make-color 40 150 250))) (* len 1/4) (* wid 4/5)
-                                        (place-image
-                                         (rectangle 16 16 "solid" (if (= (world-inst w) 6) "yellow" (make-color 40 150 250))) (* len 1/4) (+ (* wid 4/5) 32)
-                                         (place-image
-                                          (rectangle 16 16 "solid" (if (= (world-inst w) 7) "yellow" (make-color 40 150 250))) (* len 1/4) (+ (* wid 4/5) 64)
-                                          (place-image
-                                           (rectangle 16 16 "solid" (if (= (world-inst w) 8) "yellow" (make-color 40 150 250))) (* len 1/4) (+ (* wid 4/5) 96)
-                                           (place-image
-                                            (text2 w) (* len 1/4) (* wid 5/6)
-                                            (place-image
-                                             (text1 w) (* len 3/4) (* wid 5/6)
-                                             (place-image 
-                                              (black-keys w) (/ len 2) (/ wid 2)
-                                              (place-image 
-                                               (key-outlines w) (/ len 2) (/ wid 2)
-                                               (place-image 
-                                                (white-keys w) (/ len 2) (/ wid 2) 
-                                                (rectangle len wid "solid" background))))))))))))))))))))))))))))
+(define (key-board w) (place-images
+                       (list
+                        (text/font "Infiniano" 60 "red" "Palatino Linotype" 'default 'italic 'normal #f)
+                        (text "Volume" 20 "black")
+                        (text "0" 15 "black")
+                        (text "100" 15 "black")
+                        (text "50" 15 "black")
+                        (slider w)
+                        inst1text
+                        inst2text
+                        inst3text
+                        inst4text
+                        inst5text
+                        inst6text
+                        inst7text
+                        inst8text
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 1) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 2) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 3) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 4) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 5) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 6) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 7) "yellow" (make-color 40 150 250)))
+                        (rectangle 16 16 "solid" (if (= (world-inst w) 8) "yellow" (make-color 40 150 250)))
+                        (text2 w)
+                        (text1 w)
+                        (black-keys w)
+                        (key-outlines w)
+                        (white-keys w))
+                       (list
+                        (make-posn (/ len 2) 55)
+                        (make-posn (/ len 2) 110)
+                        (make-posn 100 135)
+                        (make-posn 1100 135)
+                        (make-posn 600 135)
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (+ (* len 3/32) (- (/ (image-width inst1text) 2) 8)) (* wid 4/5))
+                        (make-posn (+ (* len 3/32) (- (/ (image-width inst2text) 2) 8)) (+ (* wid 4/5) 32))
+                        (make-posn (+ (* len 3/32) (- (/ (image-width inst3text) 2) 8)) (+ (* wid 4/5) 64))
+                        (make-posn (+ (* len 3/32) (- (/ (image-width inst4text) 2) 8)) (+ (* wid 4/5) 96))
+                        (make-posn (+ (* len 1/4) (- (/ (image-width inst5text) 2) 8)) (* wid 4/5))
+                        (make-posn (+ (* len 1/4) (- (/ (image-width inst6text) 2) 8)) (+ (* wid 4/5) 32))
+                        (make-posn (+ (* len 1/4) (- (/ (image-width inst7text) 2) 8)) (+ (* wid 4/5) 64))
+                        (make-posn (+ (* len 1/4) (- (/ (image-width inst8text) 2) 8)) (+ (* wid 4/5) 96))
+                        (make-posn (* len 3/32) (* wid 4/5))
+                        (make-posn (* len 3/32) (+ (* wid 4/5) 32))
+                        (make-posn (* len 3/32) (+ (* wid 4/5) 64))
+                        (make-posn (* len 3/32) (+ (* wid 4/5) 96))
+                        (make-posn (* len 1/4) (* wid 4/5))
+                        (make-posn (* len 1/4) (+ (* wid 4/5) 32))
+                        (make-posn (* len 1/4) (+ (* wid 4/5) 64))
+                        (make-posn (* len 1/4) (+ (* wid 4/5) 96))
+                        (make-posn (* len 1/4) (* wid 5/6))
+                        (make-posn (* len 3/4) (* wid 5/6))
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (/ len 2) (/ wid 2)))
+                       (rectangle len wid "solid" background)))
   
-  
-  
-; The worldstate is a number
+; The worldstate is a structure
 
 (big-bang w
           [to-draw key-board]
