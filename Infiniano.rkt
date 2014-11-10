@@ -79,7 +79,7 @@
     [else w]))
 
 
-; Changes the instrument
+; Changes the instrument 
 ; worldstate mouse event -> worldstate
 (define (mousehandler w x y me)
   (cond
@@ -104,13 +104,13 @@
 (define (play-note num w)
   (cond
     [(= (world-inst w) 1) (pstream-play ps (rs-scale (world-vol w) (piano-tone num)))]
-    [(= (world-inst w) 2) (pstream-play ps (rs-scale (world-vol w) (clip trumpet (s (- num 24)) (s (- num 23)))))]
-    [(= (world-inst w) 3) (pstream-play ps (rs-scale (world-vol w) (clip flute (s (- num 24)) (s (- num 23)))))]
-    [(= (world-inst w) 4) (pstream-play ps (rs-scale (world-vol w) (clip sax (s (- num 24)) (s (- num 23)))))]
-    [(= (world-inst w) 5) (pstream-play ps (rs-scale (world-vol w) (clip harp (s (- num 24)) (s (- num 23)))))]
-    [(= (world-inst w) 6) (pstream-play ps (rs-scale (world-vol w) (clip musicbox (s (- num 24)) (s (- num 23)))))]
-    [(= (world-inst w) 7) (pstream-play ps (rs-scale (world-vol w) (clip strings (s (- num 24)) (s (- num 23.3)))))]
-    [(= (world-inst w) 8) (pstream-play ps (rs-scale (world-vol w) (clip synth (s (- num 24)) (s (- num 23)))))]
+    [(= (world-inst w) 2) (pstream-play ps (rs-scale (world-vol w) (clip trumpet (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 3) (pstream-play ps (rs-scale (world-vol w) (clip flute (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 4) (pstream-play ps (rs-scale (world-vol w) (clip sax (s (* 2 (- num 24))) (* 2 (s (- num 23.25))))))]
+    [(= (world-inst w) 5) (pstream-play ps (rs-scale (world-vol w) (clip harp (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 6) (pstream-play ps (rs-scale (world-vol w) (clip musicbox (s (* 2 (- num 24))) (s ( * 2 (- num 23.25))))))]
+    [(= (world-inst w) 7) (pstream-play ps (rs-scale (world-vol w) (clip strings (s (* 2 (- num 24))) (s (* 2(- num 23.25))))))]
+    [(= (world-inst w) 8) (pstream-play ps (rs-scale (world-vol w) (clip synth (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
     [else w]))
 
 
