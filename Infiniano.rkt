@@ -43,7 +43,14 @@
 (define synth (rs-scale .5 (rs-read "Synth Pad.wav")))
 (define harp (rs-scale .5 (rs-read "Harp.wav")))
 ; f(nn)= 440(2^((1/12)(nn-69))) *NOTE* In a (successful) effort to reduce lag, this ugly function is no longer used
-  
+
+; The worldstate is a structure
+
+(define (main w)
+(big-bang w
+          [to-draw key-board]
+          [on-key change-worldstate]
+          [on-mouse mousehandler]))
   
 ; Changes the given world-note-num to a MIDI note number when an alpha-numeric key is pressed or
 ; Changes the given world-not-oct when either the "up" or "down" key is pressed
@@ -336,10 +343,4 @@
                         (make-posn (/ len 2) (/ wid 2)))
                        (rectangle len wid "solid" background)))
   
-; The worldstate is a structure
-
-(big-bang INITIAL_STATE
-          [to-draw key-board]
-          [on-key change-worldstate]
-          [on-mouse mousehandler]
-          )
+(main INITIAL_STATE)
