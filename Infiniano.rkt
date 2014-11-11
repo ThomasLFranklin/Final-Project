@@ -31,7 +31,7 @@
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; Initial world is (make-world 0 1 0 1) meaning no note played, piano selected, mid range octave, at full volume
 (define-struct world (note-num inst oct vol))
-(define w (make-world 0 1 0 1))
+(define INITIAL_STATE (make-world 0 1 0 1))
 
 
 ;Instuments
@@ -47,7 +47,7 @@
   
 ; Changes the given world-note-num to a MIDI note number when an alpha-numeric key is pressed or
 ; Changes the given world-not-oct when either the "up" or "down" key is pressed
-; Worldstate key-event -> Worldstate
+; WorldState keyEvent -> WorldState
 (define (change-worldstate w key)
   (cond
     [(key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world 48 (world-inst w) (world-oct w) (world-vol w)))]
@@ -338,7 +338,7 @@
   
 ; The worldstate is a structure
 
-(big-bang w
+(big-bang INITIAL_STATE
           [to-draw key-board]
           [on-key change-worldstate]
           [on-mouse mousehandler]
