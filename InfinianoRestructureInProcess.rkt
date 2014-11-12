@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname InfinianoRestructureInProcess) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ; Electronic Keyboard Program
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
@@ -30,8 +30,12 @@
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; Initial world is (make-world 0 1 0 1) meaning no note played, piano selected, mid range octave, at full volume
-(define-struct world (note-num inst oct vol))
-(define INITIAL_STATE (make-world 0 1 0 1))
+(define-struct world (keyboolean inst oct vol))
+(define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
+(define INITIAL_STATE (make-world 
+                       (make-keyboolean (false false false false false false false false false false false false false false false false false false false false false false false false))
+                       1 0 1))
+
 
 
 ;Instuments
@@ -58,30 +62,30 @@
 ; WorldState keyEvent -> WorldState
 (define (change-worldstate w key)
   (cond
-    [(key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world 48 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "2") (both (play-note (+ 49 (* (world-oct w) 24)) w) (make-world 49 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "w") (both (play-note (+ 50 (* (world-oct w) 24)) w) (make-world 50 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "3") (both (play-note (+ 51 (* (world-oct w) 24)) w) (make-world 51 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "e") (both (play-note (+ 52 (* (world-oct w) 24)) w) (make-world 52 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "r") (both (play-note (+ 53 (* (world-oct w) 24)) w) (make-world 53 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "5") (both (play-note (+ 54 (* (world-oct w) 24)) w) (make-world 54 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "t") (both (play-note (+ 55 (* (world-oct w) 24)) w) (make-world 55 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "6") (both (play-note (+ 56 (* (world-oct w) 24)) w) (make-world 56 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "y") (both (play-note (+ 57 (* (world-oct w) 24)) w) (make-world 57 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "7") (both (play-note (+ 58 (* (world-oct w) 24)) w) (make-world 58 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "u") (both (play-note (+ 59 (* (world-oct w) 24)) w) (make-world 59 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "z") (both (play-note (+ 60 (* (world-oct w) 24)) w) (make-world 60 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "s") (both (play-note (+ 61 (* (world-oct w) 24)) w) (make-world 61 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "x") (both (play-note (+ 62 (* (world-oct w) 24)) w) (make-world 62 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "d") (both (play-note (+ 63 (* (world-oct w) 24)) w) (make-world 63 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "c") (both (play-note (+ 64 (* (world-oct w) 24)) w) (make-world 64 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "v") (both (play-note (+ 65 (* (world-oct w) 24)) w) (make-world 65 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "g") (both (play-note (+ 66 (* (world-oct w) 24)) w) (make-world 66 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "b") (both (play-note (+ 67 (* (world-oct w) 24)) w) (make-world 67 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "h") (both (play-note (+ 68 (* (world-oct w) 24)) w) (make-world 68 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "n") (both (play-note (+ 69 (* (world-oct w) 24)) w) (make-world 69 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "j") (both (play-note (+ 70 (* (world-oct w) 24)) w) (make-world 70 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "m") (both (play-note (+ 71 (* (world-oct w) 24)) w) (make-world 71 (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world (make-keyboolean (#f (keyboolean- (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "2") (both (play-note (+ 49 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "w") (both (play-note (+ 50 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "3") (both (play-note (+ 51 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "e") (both (play-note (+ 52 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "r") (both (play-note (+ 53 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "5") (both (play-note (+ 54 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "t") (both (play-note (+ 55 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "6") (both (play-note (+ 56 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "y") (both (play-note (+ 57 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "7") (both (play-note (+ 58 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "u") (both (play-note (+ 59 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "z") (both (play-note (+ 60 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "s") (both (play-note (+ 61 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "x") (both (play-note (+ 62 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "d") (both (play-note (+ 63 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "c") (both (play-note (+ 64 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "v") (both (play-note (+ 65 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "g") (both (play-note (+ 66 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "b") (both (play-note (+ 67 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "h") (both (play-note (+ 68 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "n") (both (play-note (+ 69 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "j") (both (play-note (+ 70 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
+    [(key=? key "m") (both (play-note (+ 71 (* (world-oct w) 24)) w) (make-world (world-inst w) (world-oct w) (world-vol w)))]
     [(key=? key "up") (if (< (world-oct w) 1) (make-world (world-note-num w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w)]
     [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-note-num w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w)]
     [else w]))
