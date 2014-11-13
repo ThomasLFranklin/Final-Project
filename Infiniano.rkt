@@ -25,15 +25,19 @@
 ;  Add the names of the keys used to play each note on the interface
 
 
-; Worldstate is a structure of 4 elements
-; note-num refers to the MIDI note number
+; a keyboolean is a structure of 24 elements
+; wk(n) is the t/f state of the nth white key from left of the keyboard where n is an integer between 1 and 14
+; bk(n) is the t/f state of the nth black key from left of the keyboard where n is an integer between 1 and 10
+(define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
+(define INITIAL_KEYBOARD (make-keyboolean #t #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
+
+; a world is a worldState structure of 4 elements
+; keyboolean refers to the current keyboolean state of the program
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; Initial world is (make-world 0 1 0 1) meaning no note played, piano selected, mid range octave, at full volume
 (define-struct world (keyboolean inst oct vol))
-(define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
-(define INITIAL_KEYBOARD (make-keyboolean #t #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
 (define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1))
 
 
