@@ -36,7 +36,6 @@
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
-; Initial world is (make-world 0 1 0 1) meaning no note played, piano selected, mid range octave, at full volume
 (define-struct world (keyboolean inst oct vol))
 (define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1))
 
