@@ -13,6 +13,7 @@
 ; Useful functions and definitions
 (define ps (make-pstream))
 (define (both a b) b)
+(define (all a b c d e f g h i j k l m n o p q r s t u v w x y z ws) ws)
 (define (s seconds)
   (* 44100 seconds))
 
@@ -30,8 +31,9 @@
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; Initial world is (make-world 0 1 0 1) meaning no note played, piano selected, mid range octave, at full volume
-(define-struct world (note-num inst oct vol))
-(define INITIAL_STATE (make-world 0 1 0 1))
+(define-struct world (keyboolean inst oct vol))
+(define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
+(define INITIAL_STATE (make-world (make-keyboolean #t #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f) 1 0 1))
 
 
 ;Instuments
@@ -57,40 +59,65 @@
 ; Changes the given world-not-oct when either the "up" or "down" key is pressed
 ; WorldState keyEvent -> WorldState
 (define (change-worldstate w key)
-  (cond
-    [(key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world 48 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "2") (both (play-note (+ 49 (* (world-oct w) 24)) w) (make-world 49 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "w") (both (play-note (+ 50 (* (world-oct w) 24)) w) (make-world 50 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "3") (both (play-note (+ 51 (* (world-oct w) 24)) w) (make-world 51 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "e") (both (play-note (+ 52 (* (world-oct w) 24)) w) (make-world 52 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "r") (both (play-note (+ 53 (* (world-oct w) 24)) w) (make-world 53 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "5") (both (play-note (+ 54 (* (world-oct w) 24)) w) (make-world 54 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "t") (both (play-note (+ 55 (* (world-oct w) 24)) w) (make-world 55 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "6") (both (play-note (+ 56 (* (world-oct w) 24)) w) (make-world 56 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "y") (both (play-note (+ 57 (* (world-oct w) 24)) w) (make-world 57 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "7") (both (play-note (+ 58 (* (world-oct w) 24)) w) (make-world 58 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "u") (both (play-note (+ 59 (* (world-oct w) 24)) w) (make-world 59 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "z") (both (play-note (+ 60 (* (world-oct w) 24)) w) (make-world 60 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "s") (both (play-note (+ 61 (* (world-oct w) 24)) w) (make-world 61 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "x") (both (play-note (+ 62 (* (world-oct w) 24)) w) (make-world 62 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "d") (both (play-note (+ 63 (* (world-oct w) 24)) w) (make-world 63 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "c") (both (play-note (+ 64 (* (world-oct w) 24)) w) (make-world 64 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "v") (both (play-note (+ 65 (* (world-oct w) 24)) w) (make-world 65 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "g") (both (play-note (+ 66 (* (world-oct w) 24)) w) (make-world 66 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "b") (both (play-note (+ 67 (* (world-oct w) 24)) w) (make-world 67 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "h") (both (play-note (+ 68 (* (world-oct w) 24)) w) (make-world 68 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "n") (both (play-note (+ 69 (* (world-oct w) 24)) w) (make-world 69 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "j") (both (play-note (+ 70 (* (world-oct w) 24)) w) (make-world 70 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "m") (both (play-note (+ 71 (* (world-oct w) 24)) w) (make-world 71 (world-inst w) (world-oct w) (world-vol w)))]
-    [(key=? key "up") (if (< (world-oct w) 1) (make-world (world-note-num w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w)]
-    [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-note-num w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w)]
-    [else w]))
+  (all
+    (if (key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world (make-keyboolean #t (keyboolean-wk2 (world-keyboolean w)) #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f)(world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "2") (both (play-note (+ 49 (* (world-oct w) 24)) w) (make-world 49 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "w") (both (play-note (+ 50 (* (world-oct w) 24)) w) (make-world 50 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "3") (both (play-note (+ 51 (* (world-oct w) 24)) w) (make-world 51 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "e") (both (play-note (+ 52 (* (world-oct w) 24)) w) (make-world 52 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "r") (both (play-note (+ 53 (* (world-oct w) 24)) w) (make-world 53 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "5") (both (play-note (+ 54 (* (world-oct w) 24)) w) (make-world 54 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "t") (both (play-note (+ 55 (* (world-oct w) 24)) w) (make-world 55 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "6") (both (play-note (+ 56 (* (world-oct w) 24)) w) (make-world 56 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "y") (both (play-note (+ 57 (* (world-oct w) 24)) w) (make-world 57 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "7") (both (play-note (+ 58 (* (world-oct w) 24)) w) (make-world 58 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "u") (both (play-note (+ 59 (* (world-oct w) 24)) w) (make-world 59 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "z") (both (play-note (+ 60 (* (world-oct w) 24)) w) (make-world 60 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "s") (both (play-note (+ 61 (* (world-oct w) 24)) w) (make-world 61 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "x") (both (play-note (+ 62 (* (world-oct w) 24)) w) (make-world 62 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "d") (both (play-note (+ 63 (* (world-oct w) 24)) w) (make-world 63 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "c") (both (play-note (+ 64 (* (world-oct w) 24)) w) (make-world 64 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "v") (both (play-note (+ 65 (* (world-oct w) 24)) w) (make-world 65 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "g") (both (play-note (+ 66 (* (world-oct w) 24)) w) (make-world 66 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "b") (both (play-note (+ 67 (* (world-oct w) 24)) w) (make-world 67 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "h") (both (play-note (+ 68 (* (world-oct w) 24)) w) (make-world 68 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "n") (both (play-note (+ 69 (* (world-oct w) 24)) w) (make-world 69 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "j") (both (play-note (+ 70 (* (world-oct w) 24)) w) (make-world 70 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "m") (both (play-note (+ 71 (* (world-oct w) 24)) w) (make-world 71 (world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w) w)
+    (if (key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w) w)
+    w))
 
 ;; worldstare keyevent -> worldstate
 (define (reset w key)
-  (cond
-    [(key-event? key) (make-world 0 (world-inst w) (world-oct w) (world-vol w))]
-    [else w]))
+  (all
+    (if (key=? key "q") (make-world (make-keyboolean #t (keyboolean-wk2 (world-keyboolean w)) #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f)(world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "2") (make-world 49 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "w") (make-world 50 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "3") (make-world 51 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "e") (make-world 52 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "r") (make-world 53 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "5") (make-world 54 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "t") (make-world 55 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "6") (make-world 56 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "y") (make-world 57 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "7") (make-world 58 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "u") (make-world 59 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "z") (make-world 60 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "s") (make-world 61 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "x") (make-world 62 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "d") (make-world 63 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "c") (make-world 64 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "v") (make-world 65 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "g") (make-world 66 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "b") (make-world 67 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "h") (make-world 68 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "n") (make-world 69 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "j") (make-world 70 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "m") (make-world 71 (world-inst w) (world-oct w) (world-vol w)) w)
+    (if (key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w) w)
+    (if (key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w) w)
+    w))
 
 
 ; Changes the instrument 
@@ -98,17 +125,17 @@
 (define (mousehandler w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-note-num w) 1 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-note-num w) 2 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-note-num w) 3 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-note-num w) 4 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-note-num w) 5 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-note-num w) 6 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-note-num w) 7 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-note-num w) 8 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 2 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 3 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 4 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 5 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-note-num w) (world-inst w) (world-oct w) (/ (- x 100) 1000))]
+                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000))]
                            [else w])]
     [else w])) 
   
@@ -142,30 +169,30 @@
 (define bkey-y-pos 270)
 
 ; Color change functions
-(define (wk1 w) (if (= (world-note-num w) 48) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk2 w) (if (= (world-note-num w) 50) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk3 w) (if (= (world-note-num w) 52) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk4 w) (if (= (world-note-num w) 53) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk5 w) (if (= (world-note-num w) 55) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk6 w) (if (= (world-note-num w) 57) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk7 w) (if (= (world-note-num w) 59) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk8 w) (if (= (world-note-num w) 60) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk9 w) (if (= (world-note-num w) 62) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk10 w) (if (= (world-note-num w) 64) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk11 w) (if (= (world-note-num w) 65) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk12 w) (if (= (world-note-num w) 67) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk13 w) (if (= (world-note-num w) 69) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk14 w) (if (= (world-note-num w) 71) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (bk1 w) (if (= (world-note-num w) 49) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk2 w) (if (= (world-note-num w) 51) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk3 w) (if (= (world-note-num w) 54) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk4 w) (if (= (world-note-num w) 56) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk5 w) (if (= (world-note-num w) 58) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk6 w) (if (= (world-note-num w) 61) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk7 w) (if (= (world-note-num w) 63) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk8 w) (if (= (world-note-num w) 66) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk9 w) (if (= (world-note-num w) 68) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
-(define (bk10 w) (if (= (world-note-num w) 70) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (wk1 w) (if (and (keyboolean-wk1 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk2 w) (if (and (keyboolean-wk2 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk3 w) (if (and (keyboolean-wk3 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk4 w) (if (and (keyboolean-wk4 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk5 w) (if (and (keyboolean-wk5 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk6 w) (if (and (keyboolean-wk6 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk7 w) (if (and (keyboolean-wk7 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk8 w) (if (and (keyboolean-wk8 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk9 w) (if (and (keyboolean-wk9 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk10 w) (if (and (keyboolean-wk10 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk11 w) (if (and (keyboolean-wk11 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk12 w) (if (and (keyboolean-wk12 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk13 w) (if (and (keyboolean-wk13 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (wk14 w) (if (and (keyboolean-wk14 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (bk1 w) (if (and (keyboolean-bk1 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk2 w) (if (and (keyboolean-bk2 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk3 w) (if (and (keyboolean-bk3 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk4 w) (if (and (keyboolean-bk4 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk5 w) (if (and (keyboolean-bk5 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk6 w) (if (and (keyboolean-bk6 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk7 w) (if (and (keyboolean-bk7 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk8 w) (if (and (keyboolean-bk8 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk9 w) (if (and (keyboolean-bk9 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
+(define (bk10 w) (if (and (keyboolean-bk10 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
 
 ; Functions for the keys (white, black, and outlines)
 (define (key-outlines w) (place-image (beside (rectangle wkeylen wkeywid "outline" "black")
