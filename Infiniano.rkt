@@ -34,7 +34,7 @@
 (define-struct world (keyboolean inst oct vol))
 (define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
 (define INITIAL_KEYBOARD (make-keyboolean #t #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
-(define INITIAL_STATE (make-world (make-keyboolean INITIAL_KEYBOARD 1 0 1))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1))
 
 
 ;Instuments
