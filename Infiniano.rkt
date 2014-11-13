@@ -13,7 +13,7 @@
 ; Useful functions and definitions
 (define ps (make-pstream))
 (define (both a b) b)
-(define (all a b c d e f g h i j k l m n o p q r s t u v w x y z ws) ws)
+(define (all a b c d e f g h i j k l m n o p q r s t u v w x y z) a)
 (define (s seconds)
   (* 44100 seconds))
 
@@ -64,7 +64,7 @@
 ; WorldState keyEvent -> WorldState
 (define (change-worldstate w key)
   (all
-    (if (key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world (make-keyboolean #t (keyboolean-wk2 (world-keyboolean w)) #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f)(world-inst w) (world-oct w) (world-vol w))) w)
+    (if (key=? key "q") (both (play-note (+ 48 (* (world-oct w) 24)) w) (make-world (make-keyboolean #f (keyboolean-wk2 (world-keyboolean w)) #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f)(world-inst w) (world-oct w) (world-vol w))) w)
     (if (key=? key "2") (both (play-note (+ 49 (* (world-oct w) 24)) w) (make-world 49 (world-inst w) (world-oct w) (world-vol w))) w)
     (if (key=? key "w") (both (play-note (+ 50 (* (world-oct w) 24)) w) (make-world 50 (world-inst w) (world-oct w) (world-vol w))) w)
     (if (key=? key "3") (both (play-note (+ 51 (* (world-oct w) 24)) w) (make-world 51 (world-inst w) (world-oct w) (world-vol w))) w)
@@ -90,7 +90,7 @@
     (if (key=? key "m") (both (play-note (+ 71 (* (world-oct w) 24)) w) (make-world 71 (world-inst w) (world-oct w) (world-vol w))) w)
     (if (key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w) w)
     (if (key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w) w)
-    w))
+    ))
 
 ;; worldstare keyevent -> worldstate
 (define (reset w key)
@@ -121,7 +121,7 @@
     (if (key=? key "m") (make-world 71 (world-inst w) (world-oct w) (world-vol w)) w)
     (if (key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w) w)
     (if (key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w) w)
-    w))
+    ))
 
 
 ; Changes the instrument 
