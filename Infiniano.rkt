@@ -18,7 +18,6 @@
   (* 44100 seconds))
 
 ; Program Features Wishlist and Bug Fixes:
-;  Turn the light for each note off after a certain amount of time
 ;  Beautify the interface
 ;  Possibly a metronome feature?
 ;  Possibly a demo songs feature?
