@@ -13,15 +13,16 @@
 ; Useful functions and definitions
 (define ps (make-pstream))
 (define (both a b) b)
-; No Longer Used (define (all a b c d e f g h i j k l m n o p q r s t u v w x y z) a)
 (define (s seconds)
   (* 44100 seconds))
 
 ; Program Features Wishlist and Bug Fixes:
 ;  Beautify the interface
-;  Possibly a metronome feature?
-;  Possibly a demo songs feature?
+;  Metronome feature
+;  Demo songs feature
 ;  Add the names of the keys used to play each note on the interface
+;  Loop sounds
+;  Recording feature
 
 
 ; a keyboolean is a structure of 24 elements
@@ -47,13 +48,14 @@
 (define musicbox (rs-scale .5 (rs-read "Music Box.wav")))
 (define synth (rs-scale .5 (rs-read "Synth Pad.wav")))
 (define harp (rs-scale .5 (rs-read "Harp.wav")))
-; f(nn)= 440(2^((1/12)(nn-69))) *NOTE* In a (successful) effort to reduce lag, this ugly function is no longer used
+
 
 ; The worldstate is a structure
 
 (define (main w)
 (big-bang w
           [to-draw key-board]
+          ;[on-tick tock]
           [on-key change-worldstate]
           [on-release reset]
           [on-mouse mousehandler]))
