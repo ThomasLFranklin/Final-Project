@@ -31,13 +31,21 @@
 (define-struct keyboolean (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
 (define INITIAL_KEYBOARD (make-keyboolean #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
 
+; a met is a structure of 2 elements
+; met? is the t/f state of the metronome, determining whether it is playing or not
+; bpm is the beats per minute at which the metronome is playing
+(define-struct met (met? bpm))
+(define INITIAL_MET (make-met #f 60))
+
 ; a world is a worldState structure of 4 elements
 ; keyboolean refers to the current keyboolean state of the program
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
-(define-struct world (keyboolean inst oct vol))
-(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1))
+; met refers to whether or not the metronome is on and what rate it is ticking at
+(define-struct world (keyboolean inst oct vol met))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 met))
+
 
 
 ;Instuments
@@ -116,7 +124,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "2") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -141,7 +149,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "w") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    #t 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -166,7 +174,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "3") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -191,7 +199,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "e") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    #t 
@@ -216,7 +224,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "r") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -241,7 +249,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "5") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -266,7 +274,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "t") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -291,7 +299,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "6") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -316,7 +324,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "y") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -341,7 +349,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "7") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -366,7 +374,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "u") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -391,7 +399,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "z") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -416,7 +424,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "s") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -441,7 +449,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "x") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -466,7 +474,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "d") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -491,7 +499,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "c") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -516,7 +524,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "v") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -541,7 +549,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "g") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -566,7 +574,7 @@
                                                    #t 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "b") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -591,7 +599,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "h") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -616,7 +624,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    #t 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "n") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -641,7 +649,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "j") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -666,7 +674,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    #t)
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "m") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -691,9 +699,9 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
-     [(key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w)) w)]
-     [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w)) w)]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
+     [(key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyboolean w) (world-inst w) (+ (world-oct w) 1) (world-vol w) (world-met w)) w)]
+     [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w) (world-met w)) w)]
      [else w])))
 
 ;; worldstare keyevent -> worldstate
@@ -723,7 +731,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "2") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -748,7 +756,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "w") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    #f 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -773,7 +781,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "3") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -798,7 +806,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "e") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    #f 
@@ -823,7 +831,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "r") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -848,7 +856,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "5") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -873,7 +881,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "t") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -898,7 +906,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "6") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -923,7 +931,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "y") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -948,7 +956,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "7") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -973,7 +981,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "u") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -998,7 +1006,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "z") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1023,7 +1031,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "s") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1048,7 +1056,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "x") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1073,7 +1081,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "d") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1098,7 +1106,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "c") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1123,7 +1131,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "v") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1148,7 +1156,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "g") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1173,7 +1181,7 @@
                                                    #f 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "b") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1198,7 +1206,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "h") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1223,7 +1231,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    #f 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "n") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1248,7 +1256,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "j") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1273,7 +1281,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    #f)
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [(key=? key "m") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -1298,7 +1306,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
      [else w]
   ))
 
@@ -1308,17 +1316,17 @@
 (define (mousehandler w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 2 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 3 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 4 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 5 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 2 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 3 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 4 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 5 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000))]
+                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000) (world-met w))]
                            [else w])]
     [else w])) 
   
