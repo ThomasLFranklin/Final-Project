@@ -49,13 +49,13 @@
 
 
 ;Instuments
-(define trumpet (rs-scale .5 (rs-read "Trumpet.wav")))
-(define flute (rs-scale .5 (rs-read "Pan Flute.wav")))
-(define sax (rs-scale .5 (rs-read "Sax.wav")))
-(define strings (rs-scale .5 (rs-read "Synth Strings.wav")))
-(define musicbox (rs-scale .5 (rs-read "Music Box.wav")))
-(define synth (rs-scale .5 (rs-read "Synth Pad.wav")))
-(define harp (rs-scale .5 (rs-read "Harp.wav")))
+(define trumpet (rs-scale .5 (rs-read "sounds/Trumpet.wav")))
+(define flute (rs-scale .5 (rs-read "sounds/Pan Flute.wav")))
+(define sax (rs-scale .5 (rs-read "sounds/Sax.wav")))
+(define strings (rs-scale .5 (rs-read "sounds/Synth Strings.wav")))
+(define musicbox (rs-scale .5 (rs-read "sounds/Music Box.wav")))
+(define synth (rs-scale .5 (rs-read "sounds/Synth Pad.wav")))
+(define harp (rs-scale .5 (rs-read "sounds/Harp.wav")))
 
 
 ; The worldstate is a structure
