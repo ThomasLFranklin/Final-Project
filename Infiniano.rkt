@@ -1443,12 +1443,12 @@
 (define wid1 200)
 (define box-text1 (rectangle len1 wid1 "solid" (make-color 40 150 250)))
 
-(define(text1 w) (place-images
+(define (text1 w) (place-images
                   (list
-                   (text/font "Range of Notes" 30 "red" "Palatino Linotype" 'default 'normal 'normal #t)
-                   (text "Press the up or down arrow keys to change the range of the notes." 15 "red")
-                   (text "Current Note Range (in MIDI note numbers):" 20 "red")
-                   (text (string-append (number->string (+ 48 (* (world-oct w) 24))) "-" (number->string (+ 71 (* (world-oct w) 24)))) 50 "red"))
+                   (text/font "Range of Notes" 30 "white" "Palatino Linotype" 'default 'normal 'normal #t)
+                   (text "Press the up or down arrow keys to change the range of the notes." 15 "white")
+                   (text "Current Note Range (in MIDI note numbers):" 20 "white")
+                   (text (string-append (number->string (+ 48 (* (world-oct w) 24))) "-" (number->string (+ 71 (* (world-oct w) 24)))) 50 "white"))
                   (list
                    (make-posn (/ len1 2) 24)
                    (make-posn (/ len1 2) 66 )
@@ -1458,60 +1458,60 @@
 
 ; Text for the instrument selector
 (define (text2 w) (place-image
-                   (text/font "Instrument Selector" 30 "red" "Palatino Linotype" 'default 'normal 'normal #t) (/ len1 2) 24
+                   (text/font "Instrument Selector" 30 "white" "Palatino Linotype" 'default 'normal 'normal #t) (/ len1 2) 24
                    box-text1))
 
 (define inst1text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Piano" 24 "red")))
+                        (text "Piano" 24 "white")))
 
 (define inst2text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Trumpet" 24 "red")))
+                        (text "Trumpet" 24 "white")))
 
 (define inst3text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Pan Flute" 24 "red")))
+                        (text "Pan Flute" 24 "white")))
 
 (define inst4text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Alto Sax" 24 "red")))
+                        (text "Alto Sax" 24 "white")))
 
 (define inst5text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Harp" 24 "red")))
+                        (text "Harp" 24 "white")))
 
 (define inst6text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Music Box" 24 "red")))
+                        (text "Music Box" 24 "white")))
 
 (define inst7text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Synth Strings" 24 "red")))
+                        (text "Synth Strings" 24 "white")))
 
 (define inst8text (beside
                         (rectangle 16 16 "outline" "black")
                         (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Synth Pad" 24 "red")))
+                        (text "Synth Pad" 24 "white")))
 
 ; Function for the volume slider
 ; Draws a slider that changes the volume
 
 (define (slider w) (place-image
                     (add-line
-                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "red" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" background)))
+                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" background)))
 
 ; Main renedering function
 (define (key-board w) (place-images
                        (list
-                        (text/font "Infiniano" 60 "red" "Palatino Linotype" 'default 'italic 'normal #f)
+                        (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
                         (text "Volume" 20 "black")
                         (text "0" 15 "black")
                         (text "100" 15 "black")
