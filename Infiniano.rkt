@@ -44,7 +44,7 @@
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; met refers to whether or not the metronome is on and what rate it is ticking at
 (define-struct world (keyboolean inst oct vol met))
-(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 met))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 1))
 
 
 
