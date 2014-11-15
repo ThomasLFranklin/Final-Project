@@ -44,7 +44,7 @@
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; met refers to whether or not the metronome is on and what rate it is ticking at
 (define-struct world (keyboolean inst oct vol met))
-(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 1))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 INITIAL_MET))
 
 
 
@@ -1316,14 +1316,14 @@
 (define (mousehandler w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 2 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 3 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 3/32) 8)) (< x (+ (* len 3/32) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 4 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (- (* wid 4/5) 8)) (< y (+ (* wid 4/5) 8))) (make-world (world-keyboolean w) 5 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 24)) (< y (+ (* wid 4/5) 40))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w))]
-                                  [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (* len 9/64)) (< x (+ (* len 9/64) 8)) (> y (- (* wid 4/5) 4)) (< y (+ (* wid 4/5) 4))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (* len 9/64)) (< x (+ (* len 9/64) 8)) (> y (+ (* wid 4/5) 22)) (< y (+ (* wid 4/5) 30))) (make-world (world-keyboolean w) 2 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (* len 9/64)) (< x (+ (* len 9/64) 8)) (> y (+ (* wid 4/5) 48)) (< y (+ (* wid 4/5) 56))) (make-world (world-keyboolean w) 3 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (* len 9/64)) (< x (+ (* len 9/64) 8)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 4 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (- (* wid 4/5) 4)) (< y (+ (* wid 4/5) 4))) (make-world (world-keyboolean w) 5 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 22)) (< y (+ (* wid 4/5) 30))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 48)) (< y (+ (* wid 4/5) 56))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w))]
+                                  [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w))]
                                   [else w])]
     #;[(mouse=? "drag" me) (cond
                            [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000) (world-met w))]
@@ -1440,66 +1440,70 @@
 ; Functions for text and extras
 ; Takes in a world and produces text based on the current range of the keyboard
 (define len1 (* 6 wkeylen))
-(define wid1 200)
+(define wid1 150)
 (define box-text1 (rectangle len1 wid1 "solid" (make-color 40 150 250)))
 
 (define (text1 w) (place-images
                   (list
-                   (text/font "Range of Notes" 30 "white" "Palatino Linotype" 'default 'normal 'normal #t)
-                   (text "Press the up or down arrow keys to change the range of the notes." 15 "white")
-                   (text "Current Note Range (in MIDI note numbers):" 20 "white")
-                   (text (string-append (number->string (+ 48 (* (world-oct w) 24))) "-" (number->string (+ 71 (* (world-oct w) 24)))) 50 "white"))
+                   (text/font "Range of Notes" 20 "white" "Palatino Linotype" 'default 'normal 'normal #t)
+                   (text "Press the up or down arrow keys to change the range of the notes." 10 "white")
+                   (text "Current Note Range:" 14 "white")
+                   (bitmap/file "graphics/keyboard.jpg"))
                   (list
-                   (make-posn (/ len1 2) 24)
-                   (make-posn (/ len1 2) 66 )
-                   (make-posn (/ len1 2) 90)
-                   (make-posn (/ len1 2) 145))
+                   (make-posn (/ len1 2) 14)
+                   (make-posn (/ len1 2) 40 )
+                   (make-posn (/ len1 2) 55)
+                   (make-posn (/ len1 2) 110))
                   box-text1))
 
 ; Text for the instrument selector
+(define len2 (* 6 wkeylen))
+(define wid2 150)
+(define box-text2 (rectangle len2 wid2 "solid" (make-color 40 150 250)))
+
 (define (text2 w) (place-image
-                   (text/font "Instrument Selector" 30 "white" "Palatino Linotype" 'default 'normal 'normal #t) (/ len1 2) 24
-                   box-text1))
+                   (text/font "Instrument Selector" 20 "white" "Palatino Linotype" 'default 'normal 'normal #t) (/ len2 2) 14
+                   box-text2))
 
 (define inst1text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Piano" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Piano" 14 "white")))
 
 (define inst2text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Trumpet" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Trumpet" 14 "white")))
 
 (define inst3text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Pan Flute" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Pan Flute" 14 "white")))
 
 (define inst4text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Alto Sax" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Alto Sax" 14 "white")))
 
 (define inst5text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Harp" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Harp" 14 "white")))
 
 (define inst6text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Music Box" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Music Box" 14 "white")))
 
 (define inst7text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Synth Strings" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Synth Strings" 14 "white")))
 
 (define inst8text (beside
-                        (rectangle 16 16 "outline" "black")
-                        (rectangle 17 16 "solid" (make-color 40 150 250))
-                        (text "Synth Pad" 24 "white")))
+                        (rectangle 8 8 "outline" "black")
+                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (text "Synth Pad" 14 "white")))
 
 ; Function for the volume slider
 ; Draws a slider that changes the volume
@@ -1525,14 +1529,14 @@
                         inst6text
                         inst7text
                         inst8text
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 1) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 2) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 3) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 4) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 5) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 6) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 7) "yellow" (make-color 40 150 250)))
-                        (rectangle 16 16 "solid" (if (= (world-inst w) 8) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 1) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 2) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 3) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 4) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 5) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 6) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 7) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 8) "yellow" (make-color 40 150 250)))
                         (text2 w)
                         (text1 w)
                         (black-keys w)
@@ -1546,22 +1550,22 @@
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
                         ;(make-posn (/ len 2) (/ wid 2))
-                        (make-posn (+ (* len 3/32) (- (/ (image-width inst1text) 2) 8)) (* wid 4/5))
-                        (make-posn (+ (* len 3/32) (- (/ (image-width inst2text) 2) 8)) (+ (* wid 4/5) 32))
-                        (make-posn (+ (* len 3/32) (- (/ (image-width inst3text) 2) 8)) (+ (* wid 4/5) 64))
-                        (make-posn (+ (* len 3/32) (- (/ (image-width inst4text) 2) 8)) (+ (* wid 4/5) 96))
-                        (make-posn (+ (* len 1/4) (- (/ (image-width inst5text) 2) 8)) (* wid 4/5))
-                        (make-posn (+ (* len 1/4) (- (/ (image-width inst6text) 2) 8)) (+ (* wid 4/5) 32))
-                        (make-posn (+ (* len 1/4) (- (/ (image-width inst7text) 2) 8)) (+ (* wid 4/5) 64))
-                        (make-posn (+ (* len 1/4) (- (/ (image-width inst8text) 2) 8)) (+ (* wid 4/5) 96))
-                        (make-posn (* len 3/32) (* wid 4/5))
-                        (make-posn (* len 3/32) (+ (* wid 4/5) 32))
-                        (make-posn (* len 3/32) (+ (* wid 4/5) 64))
-                        (make-posn (* len 3/32) (+ (* wid 4/5) 96))
-                        (make-posn (* len 1/4) (* wid 4/5))
-                        (make-posn (* len 1/4) (+ (* wid 4/5) 32))
-                        (make-posn (* len 1/4) (+ (* wid 4/5) 64))
-                        (make-posn (* len 1/4) (+ (* wid 4/5) 96))
+                        (make-posn (+ (* len 9/64) (/ (image-width inst1text) 2)) (* wid 4/5))
+                        (make-posn (+ (* len 9/64) (/ (image-width inst2text) 2)) (+ (* wid 4/5) 26))
+                        (make-posn (+ (* len 9/64) (/ (image-width inst3text) 2)) (+ (* wid 4/5) 52))
+                        (make-posn (+ (* len 9/64) (/ (image-width inst4text) 2)) (+ (* wid 4/5) 78))
+                        (make-posn (+ (* len 19/64) (- (/ (image-width inst5text) 2) 16)) (* wid 4/5))
+                        (make-posn (+ (* len 19/64) (- (/ (image-width inst6text) 2) 16)) (+ (* wid 4/5) 26))
+                        (make-posn (+ (* len 19/64) (- (/ (image-width inst7text) 2) 16)) (+ (* wid 4/5) 52))
+                        (make-posn (+ (* len 19/64) (- (/ (image-width inst8text) 2) 16)) (+ (* wid 4/5) 78))
+                        (make-posn (+ (* len 9/64) 4) (* wid 4/5))
+                        (make-posn (+ (* len 9/64) 4) (+ (* wid 4/5) 26))
+                        (make-posn (+ (* len 9/64) 4) (+ (* wid 4/5) 52))
+                        (make-posn (+ (* len 9/64) 4) (+ (* wid 4/5) 78))
+                        (make-posn (- (* len 19/64) 12) (* wid 4/5))
+                        (make-posn (- (* len 19/64) 12) (+ (* wid 4/5) 26))
+                        (make-posn (- (* len 19/64) 12) (+ (* wid 4/5) 52))
+                        (make-posn (- (* len 19/64) 12) (+ (* wid 4/5) 78))
                         (make-posn (* len 1/4) (* wid 5/6))
                         (make-posn (* len 3/4) (* wid 5/6))
                         (make-posn (/ len 2) (/ wid 2))
