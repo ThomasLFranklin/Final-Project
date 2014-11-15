@@ -37,7 +37,7 @@
 (define-struct met (met? bpm))
 (define INITIAL_MET (make-met #f 60))
 
-; a world is a worldState structure of 4 elements
+; a world is a worldState structure of 5 elements
 ; keyboolean refers to the current keyboolean state of the program
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
@@ -64,14 +64,14 @@
 (big-bang w
           [to-draw key-board]
           ;[on-tick tock]
-          [on-key change-worldstate]
+          [on-key play+light-up-keys]
           [on-release reset]
           [on-mouse mousehandler]))
   
-; Changes the given world-note-num to a MIDI note number when an alpha-numeric key is pressed or
+; Changes the given changes an element in the keybooleen struct to true when an alpha-numeric key is pressed or
 ; Changes the given world-not-oct when either the "up" or "down" key is pressed
-; WorldState keyEvent -> WorldState
-(define (change-worldstate w key)
+; WorldState keyEvent -> WorldState (plays pstream)
+(define (play+light-up-keys w key)
   (both
    (cond
     [(key=? key "q") (play-note (+ 48 (* (world-oct w) 24)) w)]
@@ -704,7 +704,9 @@
      [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w) (world-met w)) w)]
      [else w])))
 
-;; worldstare keyevent -> worldstate
+; On-release handler
+; Changes the coresponding part of the keyboolean struct to false when that key is released
+; worldstare keyevent -> worldstate
 (define (reset w key)
   (cond
      [(key=? key "q") (make-world (make-keyboolean #f 
@@ -1311,8 +1313,8 @@
   ))
 
 
-; Changes the instrument 
-; worldstate mouse event -> worldstate
+; Mousehandler function 
+; worldstate mouse-event -> worldstate
 (define (mousehandler w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
@@ -1330,7 +1332,8 @@
                            [else w])]
     [else w])) 
   
-  
+
+; Helper function for the on-key function
 ; Plays a note
 ; worldstate number -> sound
 (define (play-note num w)
@@ -1347,9 +1350,9 @@
 
 
 
-; Produces an image of a keyboard 
-; Numerical Constants
-(define background (make-color 43 147 208))
+; Functions for the graphical interface 
+; Constant Definitions
+(define box-color (make-color 40 150 250))
 (define len 1200)
 (define wid 650)
 (define wkeylen 75)
@@ -1360,6 +1363,8 @@
 (define bkey-y-pos 200)
 
 ; Color change functions
+; Change the color of the on screen keyboard when a key is held or released
+; worldstate -> image
 (define (wk1 w) (if (and (keyboolean-wk1 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
 (define (wk2 w) (if (and (keyboolean-wk2 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
 (define (wk3 w) (if (and (keyboolean-wk3 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
@@ -1385,7 +1390,8 @@
 (define (bk9 w) (if (and (keyboolean-bk9 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
 (define (bk10 w) (if (and (keyboolean-bk10 (world-keyboolean w)) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
 
-; Functions for the keys (white, black, and outlines)
+; Functions for the placement of the keys (white, black, and outlines)
+; Places the keys in the correct positions in the world
 (define (key-outlines w) (place-image (beside (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")
@@ -1399,7 +1405,7 @@
                                               (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")
-                                              (rectangle wkeylen wkeywid "outline" "black")) (/ len 2) wkey-y-pos (rectangle len wid "outline" background)))
+                                              (rectangle wkeylen wkeywid "outline" "black")) (/ len 2) wkey-y-pos (rectangle len wid "outline" box-color)))
 (define (white-keys w) (place-image (beside (wk1 w)
                                             (wk2 w)
                                             (wk3 w)
@@ -1413,7 +1419,7 @@
                                             (wk11 w)
                                             (wk12 w)
                                             (wk13 w)
-                                            (wk14 w)) (/ len 2) wkey-y-pos (rectangle len wid "outline" background)))
+                                            (wk14 w)) (/ len 2) wkey-y-pos (rectangle len wid "outline" box-color)))
 (define (black-keys w) (place-images 
                         (list (bk1 w)
                               (bk2 w)
@@ -1435,13 +1441,14 @@
                               (make-posn (- (* len 12/16) 8) bkey-y-pos)
                               (make-posn (* len 13/16) bkey-y-pos)
                               (make-posn (+ (* len 14/16) 8) bkey-y-pos))
-                      (rectangle len wid "outline" background)))
+                      (rectangle len wid "outline" box-color)))
 
 ; Functions for text and extras
-; Takes in a world and produces text based on the current range of the keyboard
+
+; Text for keyboard range selector
 (define len1 (* 6 wkeylen))
 (define wid1 150)
-(define box-text1 (rectangle len1 wid1 "solid" (make-color 40 150 250)))
+(define box-text1 (rectangle len1 wid1 "solid" box-color))
 
 (define (text1 w) (place-images
                   (list
@@ -1449,9 +1456,9 @@
                    (text "Press the up or down arrow keys to change the range of the notes." 10 "white")
                    (text "Current Note Range:" 14 "white")
                    (bitmap/file "graphics/keyboard.jpg")
-                   (rectangle 130 15 "solid" (if (= (world-oct w) -1) "yellow" (make-color 40 150 250)))
-                   (rectangle 130 15 "solid" (if (= (world-oct w) 0) "yellow" (make-color 40 150 250)))
-                   (rectangle 130 15 "solid" (if (= (world-oct w) 1) "yellow" (make-color 40 150 250))))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) -1) "yellow" box-color))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) 0) "yellow" box-color))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) 1) "yellow" box-color)))
                   (list
                    (make-posn (/ len1 2) 14)
                    (make-posn (/ len1 2) 40)
@@ -1465,7 +1472,7 @@
 ; Text for the instrument selector
 (define len2 (* 6 wkeylen))
 (define wid2 150)
-(define box-text2 (rectangle len2 wid2 "solid" (make-color 40 150 250)))
+(define box-text2 (rectangle len2 wid2 "solid" box-color))
 
 (define (text2 w) (place-image
                    (text/font "Instrument Selector" 20 "white" "Palatino Linotype" 'default 'normal 'normal #t) (/ len2 2) 14
@@ -1473,52 +1480,53 @@
 
 (define inst1text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Piano" 14 "white")))
 
 (define inst2text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Trumpet" 14 "white")))
 
 (define inst3text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Pan Flute" 14 "white")))
 
 (define inst4text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Alto Sax" 14 "white")))
 
 (define inst5text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Harp" 14 "white")))
 
 (define inst6text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Music Box" 14 "white")))
 
 (define inst7text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Synth Strings" 14 "white")))
 
 (define inst8text (beside
                         (rectangle 8 8 "outline" "black")
-                        (rectangle 8 8 "solid" (make-color 40 150 250))
+                        (rectangle 8 8 "solid" box-color)
                         (text "Synth Pad" 14 "white")))
 
 ; Function for the volume slider
 ; Draws a slider that changes the volume
-
+; worldstate->worldstate
 #;(define (slider w) (place-image
                     (add-line
-                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" background)))
+                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" box-color)))
 
 ; Main renedering function
+; Draws all of the graphics into the world
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
@@ -1535,14 +1543,14 @@
                         inst6text
                         inst7text
                         inst8text
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 1) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 2) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 3) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 4) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 5) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 6) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 7) "yellow" (make-color 40 150 250)))
-                        (rectangle 8 8 "solid" (if (= (world-inst w) 8) "yellow" (make-color 40 150 250)))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 1) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 2) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 3) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 4) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 5) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 6) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 7) "yellow" box-color))
+                        (rectangle 8 8 "solid" (if (= (world-inst w) 8) "yellow" box-color))
                         (text2 w)
                         (text1 w)
                         (black-keys w)
@@ -1578,6 +1586,7 @@
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2)))
-                       (rectangle len wid "solid" background)))
-  
+                       (rectangle len wid "solid" box-color)))
+ 
+; Main function that runs the program
 (main INITIAL_STATE)
