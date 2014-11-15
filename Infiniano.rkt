@@ -1512,10 +1512,10 @@
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                        (text "Volume" 20 "black")
-                        (text "0" 15 "black")
-                        (text "100" 15 "black")
-                        (text "50" 15 "black")
+                        (text "Volume" 20 "white")
+                        (text "0" 15 "white")
+                        (text "100" 15 "white")
+                        (text "50" 15 "white")
                         (slider w)
                         inst1text
                         inst2text
@@ -1537,7 +1537,8 @@
                         (text1 w)
                         (black-keys w)
                         (key-outlines w)
-                        (white-keys w))
+                        (white-keys w)
+                        (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
                         (make-posn (/ len 2) 110)
@@ -1563,6 +1564,7 @@
                         (make-posn (* len 1/4) (+ (* wid 4/5) 96))
                         (make-posn (* len 1/4) (* wid 5/6))
                         (make-posn (* len 3/4) (* wid 5/6))
+                        (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2)))
