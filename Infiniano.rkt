@@ -63,7 +63,7 @@
 
 (define (main w)
 (big-bang w
-          [to-draw key-board]
+          [to-draw graphics]
           ;[on-tick tock]
           [on-key play+light-up-keys]
           [on-release reset]
@@ -1351,11 +1351,24 @@
 
 
 
-; Functions for the graphical interface 
-; Constant Definitions
+
+
+; Functions for the graphical interface
+; The Grphical Interface is based on the mode element of the world struct. World-mode can be 
+; - "title screen"
+; - "menu"
+; - "play"
+; - more coming later
+; Constant Definitions for all modes
 (define box-color (make-color 40 150 250))
 (define len 1200)
 (define wid 650)
+
+
+; Functions for the "play" mode
+; "play" is the main mode for the program, allowing users to play different notes on the keyboard
+
+;Constnats for "play" mode
 (define wkeylen 75)
 (define wkeywid 310)
 (define wkey-y-pos 270)
@@ -1526,8 +1539,7 @@
                     (add-line
                      (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" box-color)))
 
-; Main renedering function
-; Draws all of the graphics into the world
+; Main renedering for the "play" mode
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
@@ -1588,6 +1600,14 @@
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2)))
                        (rectangle len wid "solid" box-color)))
+
+
+
+; Main function for the graphical interface of the program
+; Draws the graphical interface of the program, based on the world-mode field of the worldstate
+(define (graphics w)
+  (cond
+    [(string=? (world-mode w) "play") (key-board w)]))
  
 ; Main function that runs the program
 (main INITIAL_STATE)
