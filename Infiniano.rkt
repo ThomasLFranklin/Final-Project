@@ -225,7 +225,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w (world-mode w)))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w))]
      [(key=? key "r") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -425,7 +425,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w))]
      [(key=? key "s") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
@@ -550,7 +550,7 @@
                                                    (keyboolean-bk8 (world-keyboolean w)) 
                                                    (keyboolean-bk9 (world-keyboolean w)) 
                                                    (keyboolean-bk10 (world-keyboolean w)))
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w))]
+                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w))]
      [(key=? key "g") (make-world (make-keyboolean (keyboolean-wk1 (world-keyboolean w)) 
                                                    (keyboolean-wk2 (world-keyboolean w)) 
                                                    (keyboolean-wk3 (world-keyboolean w)) 
