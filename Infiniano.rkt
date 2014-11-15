@@ -1325,7 +1325,7 @@
                                   [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 56)) (< y (+ (* wid 4/5) 72))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w))]
                                   [(and (> x (- (* len 1/4) 8)) (< x (+ (* len 1/4) 8)) (> y (+ (* wid 4/5) 88)) (< y (+ (* wid 4/5) 104))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w))]
                                   [else w])]
-    [(mouse=? "drag" me) (cond
+    #;[(mouse=? "drag" me) (cond
                            [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000) (world-met w))]
                            [else w])]
     [else w])) 
@@ -1351,13 +1351,13 @@
 ; Numerical Constants
 (define background (make-color 43 147 208))
 (define len 1200)
-(define wid 750)
+(define wid 650)
 (define wkeylen 75)
 (define wkeywid 310)
-(define wkey-y-pos 340)
+(define wkey-y-pos 270)
 (define bkeylen 48)
 (define bkeywid 170)
-(define bkey-y-pos 270)
+(define bkey-y-pos 200)
 
 ; Color change functions
 (define (wk1 w) (if (and (keyboolean-wk1 (world-keyboolean w)) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
@@ -1504,7 +1504,7 @@
 ; Function for the volume slider
 ; Draws a slider that changes the volume
 
-(define (slider w) (place-image
+#;(define (slider w) (place-image
                     (add-line
                      (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" background)))
 
@@ -1512,11 +1512,11 @@
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                        (text "Volume" 20 "white")
-                        (text "0" 15 "white")
-                        (text "100" 15 "white")
-                        (text "50" 15 "white")
-                        (slider w)
+                        ;(text "Volume" 20 "white")
+                        ;(text "0" 15 "white")
+                        ;(text "100" 15 "white")
+                        ;(text "50" 15 "white")
+                        ;(slider w)
                         inst1text
                         inst2text
                         inst3text
@@ -1541,11 +1541,11 @@
                         (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
-                        (make-posn (/ len 2) 110)
-                        (make-posn 100 135)
-                        (make-posn 1100 135)
-                        (make-posn 600 135)
-                        (make-posn (/ len 2) (/ wid 2))
+                        ;(make-posn (/ len 2) 110)
+                        ;(make-posn 100 135)
+                        ;(make-posn 1100 135)
+                        ;(make-posn 600 135)
+                        ;(make-posn (/ len 2) (/ wid 2))
                         (make-posn (+ (* len 3/32) (- (/ (image-width inst1text) 2) 8)) (* wid 4/5))
                         (make-posn (+ (* len 3/32) (- (/ (image-width inst2text) 2) 8)) (+ (* wid 4/5) 32))
                         (make-posn (+ (* len 3/32) (- (/ (image-width inst3text) 2) 8)) (+ (* wid 4/5) 64))
