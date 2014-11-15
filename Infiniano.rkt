@@ -1449,9 +1449,9 @@
                    (text "Press the up or down arrow keys to change the range of the notes." 10 "white")
                    (text "Current Note Range:" 14 "white")
                    (bitmap/file "graphics/keyboard.jpg")
-                   (rectangle 130 15 "solid" (if (= (world-oct w) -1) "green" (make-color 40 150 250)))
-                   (rectangle 130 15 "solid" (if (= (world-oct w) 0) "green" (make-color 40 150 250)))
-                   (rectangle 130 15 "solid" (if (= (world-oct w) 1) "green" (make-color 40 150 250))))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) -1) "yellow" (make-color 40 150 250)))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) 0) "yellow" (make-color 40 150 250)))
+                   (rectangle 130 15 "solid" (if (= (world-oct w) 1) "yellow" (make-color 40 150 250))))
                   (list
                    (make-posn (/ len1 2) 14)
                    (make-posn (/ len1 2) 40)
