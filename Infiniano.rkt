@@ -45,7 +45,7 @@
 ; met refers to whether or not the metronome is on and what rate it is ticking at
 ; mode is a string that refers to the current state of the program
 (define-struct world (keyboolean inst oct vol met mode))
-(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 INITIAL_MET "play"))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 INITIAL_MET "title screen"))
 
 
 
@@ -65,12 +65,16 @@
 (big-bang w
           [to-draw graphics]
           ;[on-tick tock]
-          [on-key play+light-up-keys]
+          [on-key key-handler]
           [on-release reset]
           [on-mouse mousehandler]))
-  
+
+
+; Keyhandler functions
+
+; Function for when the program is in "play" mode
 ; Changes the given changes an element in the keybooleen struct to true when an alpha-numeric key is pressed or
-; Changes the given world-not-oct when either the "up" or "down" key is pressed
+; Changes the given world-oct when either the "up" or "down" key is pressed
 ; WorldState keyEvent -> WorldState (plays pstream)
 (define (play+light-up-keys w key)
   (both
@@ -705,7 +709,34 @@
      [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyboolean w) (world-inst w) (- (world-oct w) 1) (world-vol w) (world-met w) (world-mode w)) w)]
      [else w])))
 
-; On-release handler
+; Keyhandler function
+; Passes key event and worldstate through to different functions based on the world-mode of the world
+(define (key-handler w key)
+  (cond
+    [(string=? (world-mode w) "play") (play+light-up-keys w key)]
+    [else w]))
+
+
+; Helper function for the on-key function
+; Plays a note
+; worldstate number -> sound
+(define (play-note num w)
+  (cond
+    [(= (world-inst w) 1) (pstream-play ps (rs-scale (world-vol w) (piano-tone num)))]
+    [(= (world-inst w) 2) (pstream-play ps (rs-scale (world-vol w) (clip trumpet (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 3) (pstream-play ps (rs-scale (world-vol w) (clip flute (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 4) (pstream-play ps (rs-scale (world-vol w) (clip sax (s (* 2 (- num 24))) (* 2 (s (- num 23.25))))))]
+    [(= (world-inst w) 5) (pstream-play ps (rs-scale (world-vol w) (clip harp (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [(= (world-inst w) 6) (pstream-play ps (rs-scale (world-vol w) (clip musicbox (s (* 2 (- num 24))) (s ( * 2 (- num 23.25))))))]
+    [(= (world-inst w) 7) (pstream-play ps (rs-scale (world-vol w) (clip strings (s (* 2 (- num 24))) (s (* 2(- num 23.25))))))]
+    [(= (world-inst w) 8) (pstream-play ps (rs-scale (world-vol w) (clip synth (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
+    [else w]))
+
+
+
+; Functions for the on-release handler
+
+; Function for when the program is in "play" mode
 ; Changes the coresponding part of the keyboolean struct to false when that key is released
 ; worldstare keyevent -> worldstate
 (define (reset w key)
@@ -1313,10 +1344,27 @@
      [else w]
   ))
 
+; Key-release handler function
+; Passes the worldstate and key-release event to a helper function based on the world-mode of the world
+(define (key-release-handler w key)
+  (cond
+    [(string=? (world-mode w) "play") (reset w key)]
+    [else w]))
 
-; Mousehandler function 
+
+; Functions for the mousehandler
+
+; Function for when the program mode is "title screen"
 ; worldstate mouse-event -> worldstate
-(define (mousehandler w x y me)
+(define (mousehandler-title w x y me)
+  (cond
+    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play")]
+    [else w]))
+
+
+; Function for when the program mode is "play"
+; worldstate mouse-event -> worldstate
+(define (mousehandler-play w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
                                   [(and (> x (* len 9/64)) (< x (+ (* len 9/64) 8)) (> y (- (* wid 4/5) 4)) (< y (+ (* wid 4/5) 4))) (make-world (world-keyboolean w) 1 (world-oct w) (world-vol w) (world-met w) (world-mode w))]
@@ -1331,25 +1379,17 @@
     #;[(mouse=? "drag" me) (cond
                            [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000) (world-met w) (world-mode w))]
                            [else w])]
-    [else w])) 
-  
-
-; Helper function for the on-key function
-; Plays a note
-; worldstate number -> sound
-(define (play-note num w)
-  (cond
-    [(= (world-inst w) 1) (pstream-play ps (rs-scale (world-vol w) (piano-tone num)))]
-    [(= (world-inst w) 2) (pstream-play ps (rs-scale (world-vol w) (clip trumpet (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
-    [(= (world-inst w) 3) (pstream-play ps (rs-scale (world-vol w) (clip flute (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
-    [(= (world-inst w) 4) (pstream-play ps (rs-scale (world-vol w) (clip sax (s (* 2 (- num 24))) (* 2 (s (- num 23.25))))))]
-    [(= (world-inst w) 5) (pstream-play ps (rs-scale (world-vol w) (clip harp (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
-    [(= (world-inst w) 6) (pstream-play ps (rs-scale (world-vol w) (clip musicbox (s (* 2 (- num 24))) (s ( * 2 (- num 23.25))))))]
-    [(= (world-inst w) 7) (pstream-play ps (rs-scale (world-vol w) (clip strings (s (* 2 (- num 24))) (s (* 2(- num 23.25))))))]
-    [(= (world-inst w) 8) (pstream-play ps (rs-scale (world-vol w) (clip synth (s (* 2 (- num 24))) (s (* 2 (- num 23.25))))))]
     [else w]))
 
 
+; Mousehandler function
+; Passes the worldstate, x position, y position, and mouse event to a helper function based on the world-mode of the world
+(define (mousehandler w x y me)
+  (cond
+    [(string=? (world-mode w) "title screen") (mousehandler-title w x y me)]
+    [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
+    ))
+  
 
 
 
@@ -1364,6 +1404,21 @@
 (define len 1200)
 (define wid 650)
 
+
+; Functions for the "title screen" mode
+; "title screen" is the openning mode of the program, showing the name of the program and the creators
+(define (title-screen w)
+  (place-images (list (text/font "Infiniano" 100 "white" "Palatino Linotype" 'default 'italic 'normal #f)
+                      (text "\"[Insert motto here]\"" 30 "white" )
+                      (text "Click Anywhere to Begin" 20 "white" )
+                      (bitmap/file "graphics/background.jpg")
+                      )
+                (list (make-posn (/ len 2) (/ wid 4))
+                      (make-posn (/ len 2) 250)
+                      (make-posn (/ len 2) (* wid 2/3))
+                      (make-posn (/ len 2) (/ wid 2))
+                      )
+                (rectangle len wid "solid" box-color)))
 
 ; Functions for the "play" mode
 ; "play" is the main mode for the program, allowing users to play different notes on the keyboard
@@ -1607,7 +1662,9 @@
 ; Draws the graphical interface of the program, based on the world-mode field of the worldstate
 (define (graphics w)
   (cond
-    [(string=? (world-mode w) "play") (key-board w)]))
+    [(string=? (world-mode w) "title screen") (title-screen w)]
+    [(string=? (world-mode w) "play") (key-board w)]
+    ))
  
 ; Main function that runs the program
 (main INITIAL_STATE)
