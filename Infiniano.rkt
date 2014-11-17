@@ -1375,8 +1375,8 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 48)) (< y (+ (* wid 4/5) 56))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w) (world-mode w))]
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w))]
                                   [else w])]
-    #;[(mouse=? "drag" me) (cond
-                           [(and (> x 100) (< x 1100) (> y 148) (< y 182)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- x 100) 1000) (world-met w) (world-mode w))]
+    [(mouse=? "drag" me) (cond
+                           [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- y (- (* wid 5/6) 75)) 150) (world-met w) (world-mode w))]
                            [else w])]
     [else w]))
 
