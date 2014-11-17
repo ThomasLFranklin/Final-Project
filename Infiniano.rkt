@@ -17,7 +17,6 @@
   (* 44100 seconds))
 
 ; Program Features Wishlist and Bug Fixes:
-;  Beautify the interface
 ;  Metronome feature
 ;  Demo songs feature
 ;  Add the names of the keys used to play each note on the interface
@@ -1590,9 +1589,9 @@
 ; Function for the volume slider
 ; Draws a slider that changes the volume
 ; worldstate->worldstate
-#;(define (slider w) (place-image
+(define (slider w) (place-image
                     (add-line
-                     (rectangle 1000 5 "solid" "black") (* 1000 (world-vol w)) -10 (* 1000 (world-vol w)) 15 (make-pen "white" 10 "solid" "round" "round")) (/ len 2) 160 (rectangle len wid "outline" box-color)))
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (world-vol w)) 10 (* 150 (world-vol w)) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
 
 ; Main renedering for the "play" mode
 (define (key-board w) (place-images
@@ -1602,7 +1601,7 @@
                         ;(text "0" 15 "white")
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
-                        ;(slider w)
+                        (slider w)
                         inst1text
                         inst2text
                         inst3text
@@ -1631,7 +1630,7 @@
                         ;(make-posn 100 135)
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
-                        ;(make-posn (/ len 2) (/ wid 2))
+                        (make-posn (/ len 2) (/ wid 2))
                         (make-posn (+ (* len 9/64) (/ (image-width inst1text) 2)) (* wid 4/5))
                         (make-posn (+ (* len 9/64) (/ (image-width inst2text) 2)) (+ (* wid 4/5) 26))
                         (make-posn (+ (* len 9/64) (/ (image-width inst3text) 2)) (+ (* wid 4/5) 52))
