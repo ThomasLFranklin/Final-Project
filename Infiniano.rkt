@@ -1357,7 +1357,16 @@
 ; worldstate mouse-event -> worldstate
 (define (mousehandler-title w x y me)
   (cond
-    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play")]
+    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu")]
+    [else w]))
+
+
+; Function for when the program mode is "main menu"
+; worldstate mouse-event -> worldstate
+(define (mousehandler-menu w x y me)
+  (cond
+    [(mouse=? "button-down" me) (cond
+                                  [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play")])]
     [else w]))
 
 
@@ -1386,6 +1395,7 @@
 (define (mousehandler w x y me)
   (cond
     [(string=? (world-mode w) "title screen") (mousehandler-title w x y me)]
+    [(string=? (world-mode w) "main menu") (mousehandler-menu w x y me)]
     [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
     ))
   
@@ -1409,12 +1419,41 @@
 (define (title-screen w)
   (place-images (list (text/font "Infiniano" 100 "white" "Palatino Linotype" 'default 'italic 'normal #f)
                       (text "\"Limitless potential, limitless possibility, limitless power.\"" 30 "white" )
-                      (text "Click Anywhere to Begin" 20 "white" )
+                      (text "Click Anywhere to Start" 20 "white" )
                       (bitmap/file "graphics/background.jpg")
                       )
                 (list (make-posn (/ len 2) (/ wid 4))
                       (make-posn (/ len 2) 250)
                       (make-posn (/ len 2) (* wid 2/3))
+                      (make-posn (/ len 2) (/ wid 2))
+                      )
+                (rectangle len wid "solid" box-color)))
+
+; Functions for the "main menu"
+; "main menu" mode is, well, the main menu for the program
+(define (menu w)
+  (place-images (list (text/font "Main Menu" 80 "white" "Palatino Linotype" 'default 'italic 'normal #f)
+                      (text "Select a Mode to Begin" 20 "white" )
+                      (text "Freeplay" 20 "white" )
+                      (text "Demo Songs" 20 "white" )
+                      (text "Record Mode" 20 "white" )
+                      (text "Instructions" 20 "white" )
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (bitmap/file "graphics/background.jpg")
+                      )
+                (list (make-posn (/ len 2) (/ wid 6))
+                      (make-posn (/ len 2) 170)
+                      (make-posn (/ len 2) 250)
+                      (make-posn (/ len 2) 350)
+                      (make-posn (/ len 2) 450)
+                      (make-posn (/ len 2) 550)
+                      (make-posn (/ len 2) 250)
+                      (make-posn (/ len 2) 350)
+                      (make-posn (/ len 2) 450)
+                      (make-posn (/ len 2) 550)
                       (make-posn (/ len 2) (/ wid 2))
                       )
                 (rectangle len wid "solid" box-color)))
@@ -1662,6 +1701,7 @@
 (define (graphics w)
   (cond
     [(string=? (world-mode w) "title screen") (title-screen w)]
+    [(string=? (world-mode w) "main menu") (menu w)]
     [(string=? (world-mode w) "play") (key-board w)]
     ))
  
