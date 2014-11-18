@@ -1597,7 +1597,7 @@
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                        (text "Volume" 16 "white")
+                        (text "Volume" 20 "white")
                         ;(text "0" 15 "white")
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
