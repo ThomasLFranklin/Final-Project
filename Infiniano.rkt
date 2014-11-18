@@ -1589,7 +1589,7 @@
 ; Function for the volume slider
 ; Draws a slider that changes the volume
 ; worldstate->worldstate
-(define (slider w) (place-image
+(define (volume-slider w) (place-image
                     (add-line
                      (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
 
@@ -1597,11 +1597,11 @@
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                        ;(text "Volume" 20 "white")
+                        (text "Volume" 16 "white")
                         ;(text "0" 15 "white")
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
-                        (slider w)
+                        (volume-slider w)
                         inst1text
                         inst2text
                         inst3text
@@ -1626,7 +1626,7 @@
                         (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
-                        ;(make-posn (/ len 2) 110)
+                        (make-posn (- (/ len 2) 20) (- (* wid 5/6) 100))
                         ;(make-posn 100 135)
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
