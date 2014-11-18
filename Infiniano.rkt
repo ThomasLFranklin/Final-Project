@@ -1376,7 +1376,7 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (/ (- y (- (* wid 5/6) 75)) 150) (world-met w) (world-mode w))]
+                           [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w))]
                            [else w])]
     [else w]))
 
@@ -1591,7 +1591,7 @@
 ; worldstate->worldstate
 (define (slider w) (place-image
                     (add-line
-                     (rectangle 2 150 "solid" "white") -10 (* 150 (world-vol w)) 10 (* 150 (world-vol w)) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
 
 ; Main renedering for the "play" mode
 (define (key-board w) (place-images
