@@ -1409,7 +1409,7 @@
 ; "title screen" is the openning mode of the program, showing the name of the program and the creators
 (define (title-screen w)
   (place-images (list (text/font "Infiniano" 100 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                      (text "\"[Insert motto here]\"" 30 "white" )
+                      (text "\"Limitless Possibilities\"" 30 "white" )
                       (text "Click Anywhere to Begin" 20 "white" )
                       (bitmap/file "graphics/background.jpg")
                       )
