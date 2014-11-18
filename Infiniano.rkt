@@ -34,7 +34,7 @@
 ; met? is the t/f state of the metronome, determining whether it is playing or not
 ; bpm is the beats per minute at which the metronome is playing
 (define-struct met (met? bpm))
-(define INITIAL_MET (make-met #f 60))
+(define INITIAL_MET (make-met #f 100))
 
 ; a world is a worldState structure of 6 elements
 ; keyboolean refers to the current keyboolean state of the program
@@ -1047,7 +1047,7 @@
                                                    (keyboolean-wk5 (world-keyboolean w)) 
                                                    (keyboolean-wk6 (world-keyboolean w)) 
                                                    (keyboolean-wk7 (world-keyboolean w)) 
-                                                   #f 
+                                                   #f
                                                    (keyboolean-wk9 (world-keyboolean w)) 
                                                    (keyboolean-wk10 (world-keyboolean w)) 
                                                    (keyboolean-wk11 (world-keyboolean w)) 
@@ -1376,7 +1376,8 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w))]
+                           [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w))]
+                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150))) (world-mode w))]
                            [else w])]
     [else w]))
 
@@ -1591,17 +1592,26 @@
 ; worldstate->worldstate
 (define (volume-slider w) (place-image
                     (add-line
-                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 40) (* wid 5/6) (rectangle len wid "outline" box-color)))
+
+; Function for the volume slider
+; Draws a slider that changes the volume
+; worldstate->worldstate
+(define (metronome-slider w) (place-image
+                    (add-line
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 100 (met-bpm (world-met w))) ) 10 (* 150 (- 100 (met-bpm (world-met w)))) (make-pen box-color 10 "solid" "round" "round")) (+ (/ len 2) 40) (* wid 5/6) (rectangle len wid "outline" box-color)))
+
 
 ; Main renedering for the "play" mode
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
                         (text "Volume" 16 "white")
-                        ;(text "0" 15 "white")
+                        (text "Metronome" 16 "white")
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
                         (volume-slider w)
+                        (metronome-slider w)
                         inst1text
                         inst2text
                         inst3text
@@ -1626,10 +1636,11 @@
                         (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
-                        (make-posn (- (/ len 2) 20) (- (* wid 5/6) 100))
-                        ;(make-posn 100 135)
+                        (make-posn (- (/ len 2) 40) (- (* wid 5/6) 100))
+                        (make-posn (+ (/ len 2) 40) (- (* wid 5/6) 100)) 
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
+                        (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (+ (* len 9/64) (/ (image-width inst1text) 2)) (* wid 4/5))
                         (make-posn (+ (* len 9/64) (/ (image-width inst2text) 2)) (+ (* wid 4/5) 26))
