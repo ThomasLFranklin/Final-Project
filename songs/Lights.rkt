@@ -2,7 +2,7 @@
 #lang racket
 (provide note
          play-song
-         play-note
+         play-sound
          lights)
 (require rsound)
 (require rsound/piano-tones)
@@ -22,12 +22,12 @@
 (define (play-song l-o-n)
   (cond
     [(empty? l-o-n) empty]
-    [(cons? l-o-n) (both (play-note (first l-o-n)) (play-song (rest l-o-n)))]
+    [(cons? l-o-n) (both (play-sound (first l-o-n)) (play-song (rest l-o-n)))]
     ))
 
 ; Plays a single note from the list
 ; note  -> pstream
-(define (play-note n)
+(define (play-sound n)
   (local [(define sound1 (piano-tone (note-note-num n)))]
     (pstream-queue ps 
                    (clip sound1 0 (min (rs-frames sound1)

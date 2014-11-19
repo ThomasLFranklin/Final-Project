@@ -5,6 +5,11 @@
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
 ; Required Packages
+(require "songs/Lights.rkt")
+(require "songs/Radioactive.rkt")
+(require "songs/Sail.rkt")
+(require "songs/Summertime_Sadness.rkt")
+(require "songs/Wonderwall.rkt")
 (require rsound)
 (require rsound/piano-tones)
 (require 2htdp/image)
