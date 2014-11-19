@@ -5,11 +5,7 @@
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
 ; Required Packages
-(require "songs/Lights.rkt")
-(require "songs/Radioactive.rkt")
-(require "songs/Sail.rkt")
-(require "songs/Summertime_Sadness.rkt")
-(require "songs/Wonderwall.rkt")
+(require "songs/Songs.rkt")
 (require rsound)
 (require rsound/piano-tones)
 (require 2htdp/image)
@@ -1371,7 +1367,8 @@
 (define (mousehandler-menu w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play")])]
+                                  [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play")]
+                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo")])]
     [else w]))
 
 
@@ -1395,6 +1392,19 @@
     [else w]))
 
 
+; Function for when the program mode is "demo"
+; worldstate mouse-event -> worldstate
+(define (mousehandler-demo w x y me)
+  (cond
+    [(mouse=? "button-down" me) (cond
+                                  [(and (> x 200) (< x 400) (> y 325) (< y 375)) (both (play-song lights) w)]
+                                  [(and (> x 200) (< x 400) (> y 425) (< y 475)) (both (play-song radioactive) w)]
+                                  [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song sail) w)]
+                                  [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song summertime-sadness) w)]
+                                  [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song wonderwall) w)]
+                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w])]
+    [else w]))
+
 ; Mousehandler function
 ; Passes the worldstate, x position, y position, and mouse event to a helper function based on the world-mode of the world
 (define (mousehandler w x y me)
@@ -1402,6 +1412,7 @@
     [(string=? (world-mode w) "title screen") (mousehandler-title w x y me)]
     [(string=? (world-mode w) "main menu") (mousehandler-menu w x y me)]
     [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
+    [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
     ))
   
 
@@ -1412,6 +1423,7 @@
 ; - "title screen"
 ; - "menu"
 ; - "play"
+; - "demo"
 ; - more coming later
 ; Constant Definitions for all modes
 (define box-color (make-color 40 150 250))
@@ -1462,6 +1474,7 @@
                       (make-posn (/ len 2) (/ wid 2))
                       )
                 (rectangle len wid "solid" box-color)))
+
 
 ; Functions for the "play" mode
 ; "play" is the main mode for the program, allowing users to play different notes on the keyboard
@@ -1721,6 +1734,42 @@
                         (make-posn (/ len 2) (/ wid 2)))
                        (rectangle len wid "solid" box-color)))
 
+; Functions for "demo" mode
+; "demo" mode allows users to play the selection of preset songs
+(define (demo w)
+  (place-images (list (text/font "Demo Mode" 80 "white" "Palatino Linotype" 'default 'italic 'normal #f)
+                      (text "Select a Song to Start it Playing" 20 "white" )
+                      (text "Lights" 20 "white" )
+                      (text "Radioactive" 20 "white" )
+                      (text "Sail" 20 "white" )
+                      (text "Summertime Sadness" 20 "white" )
+                      (text "Wonderwall" 20 "white" )
+                      (text "Place Holder" 20 "white" )
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (rectangle 200 50 "solid" box-color)
+                      (bitmap/file "graphics/background.jpg")
+                      )
+                (list (make-posn (/ len 2) (/ wid 6))
+                      (make-posn (/ len 2) 170)
+                      (make-posn (/ len 4) 350)
+                      (make-posn (/ len 4) 450)
+                      (make-posn (/ len 4) 550)
+                      (make-posn (* len 3/4) 350)
+                      (make-posn (* len 3/4) 450)
+                      (make-posn (* len 3/4) 550)
+                      (make-posn (/ len 4) 350)
+                      (make-posn (/ len 4) 450)
+                      (make-posn (/ len 4) 550)
+                      (make-posn (* len 3/4) 350)
+                      (make-posn (* len 3/4) 450)
+                      (make-posn (* len 3/4) 550)
+                      (make-posn (/ len 2) (/ wid 2))
+                      )
+                (rectangle len wid "solid" box-color)))
 
 
 ; Main function for the graphical interface of the program
@@ -1730,6 +1779,7 @@
     [(string=? (world-mode w) "title screen") (title-screen w)]
     [(string=? (world-mode w) "main menu") (menu w)]
     [(string=? (world-mode w) "play") (key-board w)]
+    [(string=? (world-mode w) "demo") (demo w)]
     ))
  
 ; Main function that runs the program
