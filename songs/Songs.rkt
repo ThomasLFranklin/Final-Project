@@ -3,6 +3,7 @@
 (provide note
          play-song
          play-sound
+         start-playing-song
          lights
          radioactive
          sail
@@ -37,6 +38,13 @@
                    (clip sound1 0 (min (rs-frames sound1)
                                        (note-duration n)))
                    (note-time n))))
+
+; Function used to determine the correct time in the pstream to start playing the song
+(define (start-playing-song lon) 
+           (cond
+             [(empty? lon) empty]
+             [(cons? lon) (cons (make-note (note-note-num (first lon)) (+ (pstream-current-frame ps) (note-time (first lon))) (note-duration (first lon))) (start-playing-song (rest lon)))]))
+
 (define lights
   (list
    (make-note 83 44100 5120)

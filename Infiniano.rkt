@@ -1397,11 +1397,11 @@
 (define (mousehandler-demo w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x 200) (< x 400) (> y 325) (< y 375)) (both (play-song lights) w)]
-                                  [(and (> x 200) (< x 400) (> y 425) (< y 475)) (both (play-song radioactive) w)]
-                                  [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song sail) w)]
-                                  [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song summertime-sadness) w)]
-                                  [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song wonderwall) w)]
+                                  [(and (> x 200) (< x 400) (> y 325) (< y 375)) (both (play-song (start-playing-song lights)) w)]
+                                  [(and (> x 200) (< x 400) (> y 425) (< y 475)) (both (play-song (start-playing-song radioactive)) w)]
+                                  [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song (start-playing-song sail)) w)]
+                                  [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song (start-playing-song summertime-sadness)) w)]
+                                  [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song (start-playing-song wonderwall)) w)]
                                   [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w])]
     [else w]))
 
