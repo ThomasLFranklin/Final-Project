@@ -1,7 +1,6 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname |Summertime Sadness|) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ;; Code for Summertime Sadness by Lana Del Rey
+#lang racket
+(provide summertime-sadness)
 (require rsound)
 (require rsound/piano-tones)
 
@@ -1466,4 +1465,4 @@
    (make-note 30 10256900 10400)
    (make-note 59 10267300 10400)
    (make-note 30 10267300 10400)))
-(play-song summertime-sadness)
+;(play-song summertime-sadness)

@@ -1,7 +1,6 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Wonderwall) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ;; Code for Wonderwall by Oasis
+#lang racket
+(provide wonderwall)
 (require rsound)
 (require rsound/piano-tones)
 
@@ -2077,4 +2076,4 @@
    (make-note 66 10442820 76800)
    (make-note 42 10442820 76800)
    (make-note 54 10442820 76800)))
-(play-song wonderwall)
+;(play-song wonderwall)

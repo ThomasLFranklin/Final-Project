@@ -1,7 +1,9 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Lights) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ;; Code for Lights by Ellie Goulding
+#lang racket
+(provide note
+         play-song
+         play-note
+         lights)
 (require rsound)
 (require rsound/piano-tones)
 
@@ -1381,4 +1383,4 @@
    (make-note 61 9485380 10240)
    (make-note 56 9495620 10240)
    (make-note 65 9505860 40960)))
-(play-song lights)
+;(play-song lights)
