@@ -1441,7 +1441,7 @@
 ; "title screen" is the openning mode of the program, showing the name of the program and the creators
 (define (title-screen w)
   (place-images (list (text/font "Infiniano" 100 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                      (text "\"Limitless potential, limitless possibility, limitless power.\"" 30 "white" )
+                      (text "\"The Infinite Piano\"" 30 "white" )
                       (text "Click Anywhere to Start" 20 "white" )
                       (bitmap/file "graphics/background.jpg")
                       )
