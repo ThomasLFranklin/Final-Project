@@ -70,7 +70,7 @@
 (define (main w)
 (big-bang w
           [to-draw graphics]
-          ;[on-tick tock]
+          [on-tick check-metronome]
           [on-key key-handler]
           [on-release reset]
           [on-mouse mousehandler]))
@@ -1423,8 +1423,15 @@
     [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
     ))
   
+; Metronome functions
+; Checks whether the metronome is running or not
+#;(define (check-metronome w)
+  (cond [(world-met w) (play-metronome (met-bpm (world-met w)))]
+        [else w]))
 
-
+; Makes a metronome when it is supposed to be playing.
+#;(define (play-metronome bpm)
+  ())
 
 ; Functions for the graphical interface
 ; The Grphical Interface is based on the mode element of the world struct. World-mode can be 
