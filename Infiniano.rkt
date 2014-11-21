@@ -1409,7 +1409,7 @@
                                   [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song (start-playing-song sail)) w)]
                                   [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song (start-playing-song summertime-sadness)) w)]
                                   [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song (start-playing-song wonderwall)) w)]
-                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w]
+                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) (both (both (stop) ps) w)]
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))])]
     [else w]))
 
