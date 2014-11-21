@@ -1391,6 +1391,7 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 22)) (< y (+ (* wid 4/5) 30))) (make-world (world-keyboolean w) 6 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 48)) (< y (+ (* wid 4/5) 56))) (make-world (world-keyboolean w) 7 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyboolean w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
+                                  [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
                            [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
@@ -1408,7 +1409,8 @@
                                   [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song (start-playing-song sail)) w)]
                                   [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song (start-playing-song summertime-sadness)) w)]
                                   [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song (start-playing-song wonderwall)) w)]
-                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w])]
+                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w]
+                                  [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))])]
     [else w]))
 
 ; Mousehandler function
@@ -1722,6 +1724,8 @@
                         (black-keys w)
                         (key-outlines w)
                         (white-keys w)
+                        (text "Menu" 30 "white")
+                        (rectangle 100 50 "solid" box-color)
                         (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
@@ -1765,6 +1769,8 @@
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
+                        (make-posn 1075 50)
+                        (make-posn 1075 50)
                         (make-posn (/ len 2) (/ wid 2)))
                        (rectangle len wid "solid" box-color)))
 
@@ -1785,6 +1791,8 @@
                       (rectangle 200 50 "solid" box-color)
                       (rectangle 200 50 "solid" box-color)
                       (rectangle 200 50 "solid" box-color)
+                      (text "Menu" 30 "white")
+                      (rectangle 100 50 "solid" box-color)
                       (bitmap/file "graphics/background.jpg")
                       )
                 (list (make-posn (/ len 2) (/ wid 6))
@@ -1801,6 +1809,8 @@
                       (make-posn (* len 3/4) 350)
                       (make-posn (* len 3/4) 450)
                       (make-posn (* len 3/4) 550)
+                      (make-posn 1075 50)
+                      (make-posn 1075 50)
                       (make-posn (/ len 2) (/ wid 2))
                       )
                 (rectangle len wid "solid" box-color)))
