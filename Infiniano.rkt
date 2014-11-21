@@ -70,7 +70,7 @@
 (define (main w)
 (big-bang w
           [to-draw graphics]
-          [on-tick check-metronome]
+          ;[on-tick check-metronome]
           [on-key key-handler]
           [on-release reset]
           [on-mouse mousehandler]))
