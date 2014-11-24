@@ -1470,12 +1470,15 @@
 ; "waiver" is the terms and conditions of the program and release of liability
 (define (waiver w)
   (place-images (list
+                 (text "Click to Accept Terms and Conditions and Advance to Main Menu" 22 "white")
                  (bitmap/file "Infiniano-waiver.jpg")
                  (bitmap/file "graphics/background.jpg")
                  )
                 (list
+                 (make-posn (/ len 2) 625)
                  (make-posn (/ len 2) (/ wid 2))
-                 (make-posn (/ len 2) (/ wid 2)))
+                 (make-posn (/ len 2) (/ wid 2))
+                 )
                 (rectangle len wid "solid" box-color)))
                             
 
@@ -1866,3 +1869,4 @@
  
 ; Main function that runs the program
 (main INITIAL_STATE)
+
