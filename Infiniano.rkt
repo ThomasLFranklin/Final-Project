@@ -1374,7 +1374,7 @@
   (cond
     [(mouse=? "button-down" me) (cond
                                   [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))]
-                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))])]
+                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))])]
     [else w]))
 
 
@@ -1394,8 +1394,8 @@
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w))]
-                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150))) (world-mode w))]
+                           [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
+                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150))) (world-mode w) (world-demo-mode w))]
                            [else w])]
     [else w]))
 
@@ -1700,7 +1700,8 @@
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-                        (text "Volume" 20 "white")
+                        (text "Volume" 16 "white")
+                        (text "Metronome" 16 "white")
                         ;(text "0" 15 "white")
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
@@ -1746,7 +1747,8 @@
                         (bitmap/file "graphics/background.jpg"))
                        (list
                         (make-posn (/ len 2) 55)
-                        (make-posn (- (/ len 2) 20) (- (* wid 5/6) 100))
+                        (make-posn (- (/ len 2) 40) (- (* wid 5/6) 100))
+                        (make-posn (+ (/ len 2) 40) (- (* wid 5/6) 100))
                         ;(make-posn 100 135)
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
