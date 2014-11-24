@@ -1374,7 +1374,7 @@
   (cond
     [(mouse=? "button-down" me) (cond
                                   [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))]
-                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))])]
+                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))])]
     [else w]))
 
 
