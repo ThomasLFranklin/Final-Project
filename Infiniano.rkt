@@ -21,6 +21,7 @@
 ;  Metronome feature
 ;  Demo songs feature-get the songs to stop!
 ;  Recording feature
+;  Preset Beats
 
 
 ; a keyboolean is a structure of 24 elements
