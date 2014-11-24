@@ -22,12 +22,7 @@
 ;  Demo songs feature-get the songs to stop!
 ;  Recording feature
 
-
-; a keyList is a structure of 24 elements
-; wk(n) is the t/f state of the nth white key from left of the keyboard where n is an integer between 1 and 14
-; bk(n) is the t/f state of the nth black key from left of the keyboard where n is an integer between 1 and 10
-(define-struct keyList (wk1 wk2 wk3 wk4 wk5 wk6 wk7 wk8 wk9 wk10 wk11 wk12 wk13 wk14 bk1 bk2 bk3 bk4 bk5 bk6 bk7 bk8 bk9 bk10))
-; the initial keyboard is a list-of-booleans mapped to each key
+; initial state of the keyList element of the WorldState
 (define INITIAL_KEYBOARD (list "plholder" #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
 
 ; a met is a structure of 2 elements
@@ -43,7 +38,7 @@
 (define INITIAL_DEMO-MODE (make-demo-mode #f empty))
 
 ; a world is a worldState structure of 6 elements
-; keyList refers to the current keyList state of the program
+; keyList refers to a list corresponding to the state of all 24 keys, whether they are turned "on" (t) or "off" (f)
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
 ; oct refers to the range (represented by -1, 0, or 1) of the tones of the playble notes on the keyboard
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
