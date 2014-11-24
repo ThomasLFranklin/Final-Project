@@ -19,9 +19,7 @@
 
 ; Program Features Wishlist and Bug Fixes:
 ;  Metronome feature
-;  Demo songs feature
-;  Add the names of the keys used to play each note on the interface
-;  Loop sounds
+;  Demo songs feature-get the songs to stop!
 ;  Recording feature
 
 
