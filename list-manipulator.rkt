@@ -21,6 +21,7 @@
 ;  Metronome feature
 ;  Demo songs feature-get the songs to stop!
 ;  Recording feature
+;  Preset Beats
 
 ; initial state of the keyList element of the WorldState
 (define INITIAL_KEYBOARD (list "plholder" #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
@@ -257,9 +258,13 @@
 ; worldstate mouse-event -> worldstate
 (define (mousehandler-title w x y me)
   (cond
-    [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
+    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "waiver" (world-demo-mode w))]
     [else w]))
 
+(define (mousehandler-waiver w x y me)
+  (cond
+    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
+    [else w]))
 
 ; Function for when the program mode is "main menu"
 ; worldstate mouse-event -> worldstate
@@ -312,6 +317,7 @@
 (define (mousehandler w x y me)
   (cond
     [(string=? (world-mode w) "title screen") (mousehandler-title w x y me)]
+    [(string=? (world-mode w) "waiver") (mousehandler-waiver w x y me)]
     [(string=? (world-mode w) "main menu") (mousehandler-menu w x y me)]
     [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
     [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
@@ -354,6 +360,22 @@
                       (make-posn (/ len 2) (/ wid 2))
                       )
                 (rectangle len wid "solid" box-color)))
+
+; Functions for the "waiver" mode
+; "waiver" is the terms and conditions of the program and release of liability
+(define (waiver w)
+  (place-images (list
+                 (text "Click to Accept Terms and Conditions and Advance to Main Menu" 22 "white")
+                 (bitmap/file "Infiniano-waiver.jpg")
+                 (bitmap/file "graphics/background.jpg")
+                 )
+                (list
+                 (make-posn (/ len 2) 625)
+                 (make-posn (/ len 2) (/ wid 2))
+                 (make-posn (/ len 2) (/ wid 2))
+                 )
+                (rectangle len wid "solid" box-color)))
+                
 
 ; Functions for the "main menu"
 ; "main menu" mode is, well, the main menu for the program
@@ -734,6 +756,7 @@
 (define (graphics w)
   (cond
     [(string=? (world-mode w) "title screen") (title-screen w)]
+    [(string=? (world-mode w) "waiver") (waiver w)]
     [(string=? (world-mode w) "main menu") (menu w)]
     [(string=? (world-mode w) "play") (key-board w)]
     [(string=? (world-mode w) "demo") (demo w)]
