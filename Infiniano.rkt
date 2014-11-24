@@ -35,7 +35,7 @@
 ; met? is the t/f state of the metronome, determining whether it is playing or not
 ; bpm is the beats per minute at which the metronome is playing
 (define-struct met (met? bpm))
-(define INITIAL_MET (make-met #f 60))
+(define INITIAL_MET (make-met #f 100))
 
 ; a demo-mode is a structure of 2 elements
 ; playing? is the t/f state determining whether a song is playing or not
@@ -1394,7 +1394,8 @@
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
-                           [(and (> x (- (/ len 2) 30)) (< x (- (/ len 2) 10)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
+                           [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w))]
+                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150))) (world-mode w))]
                            [else w])]
     [else w]))
 
@@ -1685,7 +1686,15 @@
 ; worldstate->worldstate
 (define (volume-slider w) (place-image
                     (add-line
-                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 20) (* wid 5/6) (rectangle len wid "outline" box-color)))
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 1 (world-vol w)) ) 10 (* 150 (- 1 (world-vol w))) (make-pen box-color 10 "solid" "round" "round")) (- (/ len 2) 40) (* wid 5/6) (rectangle len wid "outline" box-color)))
+
+; Function for the metronome slider
+; Draws a slider that changes the volume
+; worldstate->worldstate
+(define (metronome-slider w) (place-image
+                    (add-line
+                     (rectangle 2 150 "solid" "white") -10 (* 150 (- 100 (met-bpm (world-met w))) ) 10 (* 150 (- 100 (met-bpm (world-met w)))) (make-pen box-color 10 "solid" "round" "round")) (+ (/ len 2) 40) (* wid 5/6) (rectangle len wid "outline" box-color)))
+
 
 ; Main renedering for the "play" mode
 (define (key-board w) (place-images
@@ -1696,6 +1705,7 @@
                         ;(text "100" 15 "white")
                         ;(text "50" 15 "white")
                         (volume-slider w)
+                        (metronome-slider w)
                         (text "Q" 18 box-color)
                         (text "W" 18 box-color)
                         (text "E" 18 box-color)
@@ -1740,6 +1750,7 @@
                         ;(make-posn 100 135)
                         ;(make-posn 1100 135)
                         ;(make-posn 600 135)
+                        (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (* len 3/32) (/ wid 2))
                         (make-posn (* len 5/32) (/ wid 2))
