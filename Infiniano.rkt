@@ -272,7 +272,8 @@
   (cond
     [(mouse=? "button-down" me) (cond
                                   [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))]
-                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))])]
+                                  [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))]
+                                  [else w])]
     [else w]))
 
 
@@ -290,6 +291,8 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 48)) (< y (+ (* wid 4/5) 56))) (make-world (world-keyList w) 7 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyList w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
+                                  [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (if (= 0 (world-vol w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 1 (world-met w) (world-mode w) (world-demo-mode w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 0 (world-met w) (world-mode w) (world-demo-mode w)))]
+                                  [(and (< x (+ (/ len 2) 50)) (> x (+ (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met #t (met-bpm (world-met w))) (world-mode w) (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
                            [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyList w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
