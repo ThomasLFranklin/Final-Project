@@ -258,12 +258,12 @@
 ; worldstate mouse-event -> worldstate
 (define (mousehandler-title w x y me)
   (cond
-    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "waiver" (world-demo-mode w))]
+    [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "waiver" (world-demo-mode w))]
     [else w]))
 
 (define (mousehandler-waiver w x y me)
   (cond
-    [(mouse=? "button-up" me) (make-world (world-keyboolean w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
+    [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
     [else w]))
 
 ; Function for when the program mode is "main menu"
