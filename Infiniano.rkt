@@ -32,12 +32,6 @@
 (define-struct met (met? bpm))
 (define INITIAL_MET (make-met #f 100))
 
-; a demo-mode is a structure of 2 elements
-; playing? is the t/f state determining whether a song is playing or not
-; song is a list of notes to be played
-(define-struct demo-mode (playing? song))
-(define INITIAL_DEMO-MODE (make-demo-mode #f empty))
-
 ; a world is a worldState structure of 6 elements
 ; keyList refers to a list corresponding to the state of all 24 keys, whether they are turned "on" (t) or "off" (f)
 ; inst refers to the instrument (represented by a positive integer) the note will be played with
@@ -45,8 +39,9 @@
 ; vol refers to the volume multiplier (represented by a number between 0 and 1) of the notes
 ; met refers to whether or not the metronome is on and what rate it is ticking at
 ; mode is a string that refers to the current state of the program
+; demo-mode is the current song being played, represented as a list of notes. If the list is empty, no song is playing.
 (define-struct world (keyList inst oct vol met mode demo-mode))
-(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 INITIAL_MET "title screen" INITIAL_DEMO-MODE))
+(define INITIAL_STATE (make-world INITIAL_KEYBOARD 1 0 1 INITIAL_MET "title screen" empty))
 
 ;Instuments
 (define trumpet (rs-scale .5 (rs-read "sounds/Trumpet.wav")))
@@ -63,7 +58,8 @@
 (define (main w)
 (big-bang w
           [to-draw graphics]
-          ;[on-tick check-metronome]
+          ;NOTE: DO NOT CHANGE THE INTERVAL FOR THE ON-TICK FUNCTION OR THE DEMO SONGS WILL NOT WORK
+          [on-tick tock 1/20]
           [on-key key-handler]
           [on-release reset]
           [on-mouse mousehandler]))
@@ -306,14 +302,74 @@
 (define (mousehandler-demo w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
-                                  [(and (> x 200) (< x 400) (> y 325) (< y 375)) (both (play-song (start-playing-song lights)) w)]
-                                  [(and (> x 200) (< x 400) (> y 425) (< y 475)) (both (play-song (start-playing-song radioactive)) w)]
-                                  [(and (> x 200) (< x 400) (> y 525) (< y 575)) (both (play-song (start-playing-song sail)) w)]
-                                  [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (both (play-song (start-playing-song summertime-sadness)) w)]
-                                  [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (both (play-song (start-playing-song wonderwall)) w)]
-                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) (both (both (stop) ps) w)]
+                                  [(and (> x 200) (< x 400) (> y 325) (< y 375)) (start-playing-song w lights)]
+                                  [(and (> x 200) (< x 400) (> y 425) (< y 475)) (start-playing-song w radioactive)]
+                                  [(and (> x 200) (< x 400) (> y 525) (< y 575)) (start-playing-song w sail)]
+                                  [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (start-playing-song w summertime-sadness)]
+                                  [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (start-playing-song w wonderwall)]
+                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w]
+                                  [(and (> x 550) (< x 650) (> y 350) (< y 550)) (make-world (world-keyList w) 
+                                                                                             (world-inst w) 
+                                                                                             (world-oct w) 
+                                                                                             (world-vol w) 
+                                                                                             (world-met w) 
+                                                                                             (world-mode w) 
+                                                                                             empty)]
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))])]
     [else w]))
+
+
+
+
+; Functions for playing songs in demo mode
+; These are all helper functions to make a list of notes playble in our program
+
+; Plays the notes in a list of notes
+; List -> pstream struct
+(define (play-song w)
+  (cond
+    [(empty? (world-demo-mode w)) w]
+    [(cons? (world-demo-mode w)) (extract-list (world-demo-mode w) w)]
+    ))
+
+(define (extract-list lon w)
+  (cond
+    [(empty? lon) w]
+    [(cons? lon) (both (play-sound (first lon) w) (extract-list (rest lon) w))]))
+
+; Plays a single note from the list
+; note  -> pstream
+(define (play-sound n w)
+  (local [(define sound1 (piano-tone (note-note-num n)))]
+    (cond
+      [(and (> (note-time n) (- (pstream-current-frame ps) 4000)) (< (note-time n) (+ (pstream-current-frame ps) 4000))) (both (pstream-queue ps 
+                                                                                                                                     (clip sound1 0 (min (rs-frames sound1)
+                                                                                                                                                         (note-duration n)))
+                                                                                                                                     (note-time n))
+                                                                                                                      w)]
+      [else w])))
+
+; Function used to determine the correct time in the pstream to start playing the song, since the pstream starts automatically when the program starts
+; This prevents the song from starting half way through when you click to start it
+(define (start-playing-song w lon) 
+  (cond
+    [(empty? lon) empty]
+    [(cons? lon) (make-world (world-keyList w) 
+                             (world-inst w) 
+                             (world-oct w) 
+                             (world-vol w) 
+                             (world-met w) 
+                             (world-mode w) 
+                             (start-playing-song-helper lon (pstream-current-frame ps)))]))
+
+(define (start-playing-song-helper lon t) 
+  (cond
+    [(empty? lon) empty]
+    [(cons? lon) (cons (make-note (note-note-num (first lon)) 
+                                  (+ (s 2) t (note-time (first lon))) 
+                                  (note-duration (first lon))) 
+                       (start-playing-song-helper (rest lon) t))]))
+
 
 ; Mousehandler function
 ; Passes the worldstate, x position, y position, and mouse event to a helper function based on the world-mode of the world
@@ -326,15 +382,32 @@
     [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
     ))
   
+
+
+; On-tick functions
+; Just like all the other functions, the on-tick function is determined by the mode of the program.
+
 ; Metronome functions
 ; Checks whether the metronome is running or not
 #;(define (check-metronome w)
   (cond [(world-met w) (play-metronome (met-bpm (world-met w)))]
         [else w]))
-
 ; Makes a metronome when it is supposed to be playing.
 #;(define (play-metronome bpm)
   ())
+
+; On-tick function for demo mode
+; Passes the list of notes to the play-song function to be played.
+(define (on-tick-for-demo-songs w) (play-song w))
+
+; Main on-tick function
+(define (tock w)
+  (cond
+    ;[(string=? (world-mode w) "play") (check-metronome w)]
+    [(string=? (world-mode w) "demo") (on-tick-for-demo-songs w)]
+    [else w]
+    ))
+
 
 ; Functions for the graphical interface
 ; The Grphical Interface is based on the mode element of the world struct. World-mode can be 
@@ -731,6 +804,8 @@
                       (rectangle 200 50 "solid" box-color)
                       (text "Menu" 30 "white")
                       (rectangle 100 50 "solid" box-color)
+                      (text "Stop" 35 "white")
+                      (rectangle 100 100 "solid" "red")
                       (bitmap/file "graphics/background.jpg")
                       )
                 (list (make-posn (/ len 2) (/ wid 6))
@@ -749,6 +824,8 @@
                       (make-posn (* len 3/4) 550)
                       (make-posn 1075 50)
                       (make-posn 1075 50)
+                      (make-posn (/ len 2) 450)
+                      (make-posn (/ len 2) 450)
                       (make-posn (/ len 2) (/ wid 2))
                       )
                 (rectangle len wid "solid" box-color)))

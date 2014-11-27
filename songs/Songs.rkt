@@ -1,9 +1,10 @@
 ;; Code for The Songs
 #lang racket
 (provide note
-         play-song
-         play-sound
-         start-playing-song
+         note-note-num
+         note-time
+         note-duration
+         make-note
          lights
          radioactive
          sail
@@ -22,29 +23,7 @@
 ; the last number is the duration of the note
 (define-struct note (note-num time duration))
 
-; Plays the notes in a list of notes
-; List -> pstream struct
-(define (play-song l-o-n)
-  (cond
-    [(empty? l-o-n) empty]
-    [(cons? l-o-n) (both (play-sound (first l-o-n)) (play-song (rest l-o-n)))]
-    ))
-
-; Plays a single note from the list
-; note  -> pstream
-(define (play-sound n)
-  (local [(define sound1 (piano-tone (note-note-num n)))]
-    (pstream-queue ps 
-                   (clip sound1 0 (min (rs-frames sound1)
-                                       (note-duration n)))
-                   (note-time n))))
-
-; Function used to determine the correct time in the pstream to start playing the song
-(define (start-playing-song lon) 
-           (cond
-             [(empty? lon) empty]
-             [(cons? lon) (cons (make-note (note-note-num (first lon)) (+ (pstream-current-frame ps) (note-time (first lon))) (note-duration (first lon))) (start-playing-song (rest lon)))]))
-
+; Songs
 (define lights
   (list
    (make-note 83 44100 5120)
