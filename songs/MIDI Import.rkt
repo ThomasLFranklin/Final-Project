@@ -7,3 +7,8 @@
 (require midi-readwrite)
 
 (MIDIFile->notelist (midi-file-parse "path of midi file.mid"))
+
+#;(define (magic-fixer! l-o-n) 
+  (cond
+    [(empty? l-o-n) empty]
+    [(cons? l-o-n) (cons (make-note (note-note-num (first l-o-n)) (+ 44100 (* (note-time (first l-o-n)) 60)) (* 60 (note-duration (first l-o-n)))) magic-fixer! (rest l-o-n))]))
