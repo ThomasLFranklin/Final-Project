@@ -324,21 +324,20 @@
 ; Functions for playing songs in demo mode
 ; These are all helper functions to make a list of notes playble in our program
 
-; Plays the notes in a list of notes
-; List -> pstream struct
-(define (play-song w)
+; Extracts the list of notes from the world struct, then passes it into the play-song function
+(define (extract-list w)
   (cond
     [(empty? (world-demo-mode w)) w]
-    [(cons? (world-demo-mode w)) (extract-list (world-demo-mode w) w)]
+    [(cons? (world-demo-mode w)) (play-song (world-demo-mode w) w)]
     ))
 
-(define (extract-list lon w)
+; Passes each individual note from the list of notes into the play-sound function
+(define (play-song lon w)
   (cond
     [(empty? lon) w]
-    [(cons? lon) (both (play-sound (first lon) w) (extract-list (rest lon) w))]))
+    [(cons? lon) (both (play-sound (first lon) w) (play-song (rest lon) w))]))
 
 ; Plays a single note from the list
-; note  -> pstream
 (define (play-sound n w)
   (local [(define sound1 (piano-tone (note-note-num n)))]
     (cond
@@ -361,7 +360,6 @@
                              (world-met w) 
                              (world-mode w) 
                              (start-playing-song-helper lon (pstream-current-frame ps)))]))
-
 (define (start-playing-song-helper lon t) 
   (cond
     [(empty? lon) empty]
@@ -398,7 +396,7 @@
 
 ; On-tick function for demo mode
 ; Passes the list of notes to the play-song function to be played.
-(define (on-tick-for-demo-songs w) (play-song w))
+(define (on-tick-for-demo-songs w) (extract-list w))
 
 ; Main on-tick function
 (define (tock w)
