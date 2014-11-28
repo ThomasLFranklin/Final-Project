@@ -307,7 +307,7 @@
                                   [(and (> x 200) (< x 400) (> y 525) (< y 575)) (start-playing-song w sail)]
                                   [(and (> x 800) (< x 1000) (> y 325) (< y 375)) (start-playing-song w summertime-sadness)]
                                   [(and (> x 800) (< x 1000) (> y 425) (< y 475)) (start-playing-song w wonderwall)]
-                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) w]
+                                  [(and (> x 800) (< x 1000) (> y 525) (< y 575)) (start-playing-song w clocks)]
                                   [(and (> x 550) (< x 650) (> y 350) (< y 550)) (make-world (world-keyList w) 
                                                                                              (world-inst w) 
                                                                                              (world-oct w) 
@@ -793,7 +793,7 @@
                       (text "Sail" 20 "white" )
                       (text "Summertime Sadness" 20 "white" )
                       (text "Wonderwall" 20 "white" )
-                      (text "Place Holder" 20 "white" )
+                      (text "Clocks" 20 "white" )
                       (rectangle 200 50 "solid" box-color)
                       (rectangle 200 50 "solid" box-color)
                       (rectangle 200 50 "solid" box-color)
