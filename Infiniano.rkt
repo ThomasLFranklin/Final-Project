@@ -299,6 +299,7 @@
 
 ; Function for when the program mode is "demo"
 ; worldstate mouse-event -> worldstate
+; NOTE: The code for the songs is defined in the "Songs.rkt" file located in the songs folder
 (define (mousehandler-demo w x y me)
   (cond
     [(mouse=? "button-down" me) (cond
@@ -691,9 +692,6 @@
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
                         (text "Volume" 16 "white")
                         (text "Metronome" 16 "white")
-                        ;(text "0" 15 "white")
-                        ;(text "100" 15 "white")
-                        ;(text "50" 15 "white")
                         (volume-slider w)
                         (metronome-slider w)
                         (text "Q" 18 box-color)
@@ -738,9 +736,6 @@
                         (make-posn (/ len 2) 55)
                         (make-posn (- (/ len 2) 40) (- (* wid 5/6) 100))
                         (make-posn (+ (/ len 2) 40) (- (* wid 5/6) 100))
-                        ;(make-posn 100 135)
-                        ;(make-posn 1100 135)
-                        ;(make-posn 600 135)
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (* len 3/32) (/ wid 2))
