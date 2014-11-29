@@ -29,8 +29,8 @@
 ; a met is a structure of 2 elements
 ; met? is the t/f state of the metronome, determining whether it is playing or not
 ; bpm is the beats per minute at which the metronome is playing
-(define-struct met (met? bpm))
-(define INITIAL_MET (make-met #f 100))
+(define-struct met (met? bpm current-time))
+(define INITIAL_MET (make-met #f 100 0))
 
 ; a world is a worldState structure of 6 elements
 ; keyList refers to a list corresponding to the state of all 24 keys, whether they are turned "on" (t) or "off" (f)
@@ -288,11 +288,11 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyList w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (if (= 0 (world-vol w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 1 (world-met w) (world-mode w) (world-demo-mode w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 0 (world-met w) (world-mode w) (world-demo-mode w)))]
-                                  [(and (< x (+ (/ len 2) 50)) (> x (+ (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met #t (met-bpm (world-met w))) (world-mode w) (world-demo-mode w))]
+                                  [(and (< x (+ (/ len 2) 50)) (> x (+ (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met #t (met-bpm (world-met w)) (met-current-time (world-met w))) (world-mode w) (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
                            [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyList w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
-                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150))) (world-mode w) (world-demo-mode w))]
+                           [(and (> x (+ (/ len 2) 30)) (< x (+ (/ len 2) 50)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (- 100 (/ (- y (- (* wid 5/6) 75)) 150)) (met-current-time (world-met w))) (world-mode w) (world-demo-mode w))]
                            [else w])]
     [else w]))
 
@@ -406,6 +406,12 @@
     [(string=? (world-mode w) "demo") (on-tick-for-demo-songs w)]
     [else w]
     ))
+
+;;Check Metronome Function
+(define (check-metronome w)
+  (cond
+    [(met-met? (world-met w)) (if (= (met-current-time (world-met w)) (+ 1 (/ (met-bpm (world-met w)) 50))) (and (play ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) (+ 1 (met-current-time (world-met w))))]
+    [else w]))
 
 
 ; Functions for the graphical interface
