@@ -423,7 +423,7 @@
 ; Main on-tick function
 (define (tock w)
   (cond
-    ;[(string=? (world-mode w) "play") (check-metronome w)]
+    [(string=? (world-mode w) "play") (check-metronome w)]
     [(string=? (world-mode w) "demo") (on-tick-for-demo-songs w)]
     [else w]
     ))
@@ -431,7 +431,9 @@
 ;;Check Metronome Function
 (define (check-metronome w)
   (cond
-    [(met-met? (world-met w)) (if (= (met-current-time (world-met w)) (+ 1 (/ (met-bpm (world-met w)) 50))) (and (play ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) (+ 1 (met-current-time (world-met w))))]
+    [(met-met? (world-met w)) (if (= (met-current-time (world-met w)) (+ 1 (/ (met-bpm (world-met w)) 50))) 
+                                  (both (play ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) 
+                                  (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) (+ 1 (met-current-time (world-met w)))) (world-mode w) (world-demo-mode w)))]
     [else w]))
 
 
