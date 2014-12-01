@@ -271,16 +271,7 @@
     [(mouse=? "button-down" me) (cond
                                   [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))]
                                   [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))]
-                                  [(and (> x 500) (< x 700) (> y 425) (< y 475)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "record" (world-demo-mode w))]
                                   [(and (> x 500) (< x 700) (> y 525) (< y 575)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "instructions" (world-demo-mode w))]
-                                  [else w])]
-    [else w]))
-
-;Function for when the program mode is "record"
-(define (mousehandler-record w x y me)
-  (cond
-    [(mouse=? "button-down" me) (cond
-                                  [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [else w])]
     [else w]))
 
@@ -399,7 +390,6 @@
     [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
     [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
     [(string=? (world-mode w) "instructions") (mousehandler-instructions w x y me)]
-    [(string=? (world-mode w) "record") (mousehandler-record w x y me)]
     ))
   
 
@@ -431,9 +421,9 @@
 ;;Check Metronome Function
 (define (check-metronome w)
   (cond
-    [(met-met? (world-met w)) (if (= (met-current-time (world-met w)) (+ 1 (/ (met-bpm (world-met w)) 50))) 
+    [(met-met? (world-met w)) (if (>= (met-current-time (world-met w)) (/ 1 (+ 1 (/ (met-bpm (world-met w)) 50)))) 
                                   (both (play ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) 
-                                  (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) (+ 1 (met-current-time (world-met w)))) (world-mode w) (world-demo-mode w)))]
+                                  (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-met? (world-met w)) (met-bpm (world-met w)) (+ 1/20 (met-current-time (world-met w)))) (world-mode w) (world-demo-mode w)))]
     [else w]))
 
 
@@ -516,28 +506,13 @@
   (place-images (list
                  (text "Menu" 30 "white")
                  (rectangle 100 50 "solid" box-color)
-                 (text "Play Mode" 26 "white")
                  (bitmap/file "graphics/background.jpg"))
                 (list
                  (make-posn 1075 50)
                  (make-posn 1075 50)
-                 (make-posn (/ len 2) (* wid  2/26))
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
                 
-
-; Functions for the "record" mode
-; Record allows the user to record a series of notes being played
-(define (record w)
-  (place-images (list
-                 (text "Menu" 30 "white")
-                 (rectangle 100 50 "solid" box-color)
-                 (bitmap/file "graphics/background.jpg"))
-                (list
-                 (make-posn 1075 50)
-                 (make-posn 1075 50)
-                 (make-posn (/ len 2) (/ wid 2)))
-                (rectangle len wid "solid" box-color)))
 
 ; Functions for the "play" mode
 ; "play" is the main mode for the program, allowing users to play different notes on the keyboard
@@ -891,7 +866,6 @@
     [(string=? (world-mode w) "play") (key-board w)]
     [(string=? (world-mode w) "demo") (demo w)]
     [(string=? (world-mode w) "instructions") (instructions w)]
-    [(string=? (world-mode w) "record") (record w)]
     ))
  
 ; Main function that runs the program
