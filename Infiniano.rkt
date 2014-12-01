@@ -257,6 +257,8 @@
     [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "waiver" (world-demo-mode w))]
     [else w]))
 
+; Function for when the program mode is "waiver"
+; worldkstate mouse-event -> worldstate
 (define (mousehandler-waiver w x y me)
   (cond
     [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
@@ -269,10 +271,18 @@
     [(mouse=? "button-down" me) (cond
                                   [(and (> x 500) (< x 700) (> y 225) (< y 275)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "play" (world-demo-mode w))]
                                   [(and (> x 500) (< x 700) (> y 325) (< y 375)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "demo" (world-demo-mode w))]
+                                  [(and (> x 500) (< x 700) (> y 525) (< y 575)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "instructions" (world-demo-mode w))]
                                   [else w])]
     [else w]))
 
-
+; Function for when the program mode is "instructions"
+(define (mousehandler-instructions w x y me)
+  (cond
+    [(mouse=? "button-down" me) (cond
+                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
+                                   [else w])]
+    [else w]))
+                                   
 ; Function for when the program mode is "play"
 ; worldstate mouse-event -> worldstate
 (define (mousehandler-play w x y me)
@@ -379,6 +389,7 @@
     [(string=? (world-mode w) "main menu") (mousehandler-menu w x y me)]
     [(string=? (world-mode w) "play") (mousehandler-play w x y me)]
     [(string=? (world-mode w) "demo") (mousehandler-demo w x y me)]
+    [(string=? (world-mode w) "instructions") (mousehandler-instructions w x y me)]
     ))
   
 
@@ -487,6 +498,19 @@
                       )
                 (rectangle len wid "solid" box-color)))
 
+; Functions for the "intstructions mode
+; Instructions displays directions on how to use the program
+(define (instructions w)
+  (place-images (list
+                 (text "Menu" 30 "white")
+                 (rectangle 100 50 "solid" box-color)
+                 (bitmap/file "graphics/background.jpg"))
+                (list
+                 (make-posn 1075 50)
+                 (make-posn 1075 50)
+                 (make-posn (/ len 2) (/ wid 2)))
+                (rectangle len wid "solid" box-color)))
+                
 
 ; Functions for the "play" mode
 ; "play" is the main mode for the program, allowing users to play different notes on the keyboard
@@ -839,6 +863,7 @@
     [(string=? (world-mode w) "main menu") (menu w)]
     [(string=? (world-mode w) "play") (key-board w)]
     [(string=? (world-mode w) "demo") (demo w)]
+    [(string=? (world-mode w) "instructions") (instructions w)]
     ))
  
 ; Main function that runs the program
