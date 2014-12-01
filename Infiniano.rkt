@@ -514,10 +514,12 @@
   (place-images (list
                  (text "Menu" 30 "white")
                  (rectangle 100 50 "solid" box-color)
+                 (text "Play Mode" 26 "white")
                  (bitmap/file "graphics/background.jpg"))
                 (list
                  (make-posn 1075 50)
                  (make-posn 1075 50)
+                 (make-posn (/ len 2) (* wid  2/26))
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
                 
