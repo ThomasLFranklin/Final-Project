@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname |Infiniano Class Edits|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
 ; Electronic Keyboard Program
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
@@ -527,7 +527,7 @@
 ; worldstate -> image
 
 (define (drawkey keycolor n world)
-  (if (and (list-ref (world-keyList w) n) #t)
+  (if (and (list-ref (world-keyList world) n) #t)
       (rectangle wkeylen wkeywid "solid" "yellow")
       (rectangle wkeylen wkeywid "solid" keycolor)))
 
