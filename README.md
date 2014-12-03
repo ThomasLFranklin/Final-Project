@@ -4,9 +4,12 @@
 A keyboard program by Nish Dara, Thomas Franklin, Devon Grove, and Blain Weeks.
 
 
-
+### Screenshots
 ![Picture][Screenshot]
-[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/prototype-scrnsht.png?raw=true
+[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/menu.png?raw=true
+[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/freeplay.png?raw=true
+[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/playsongs.png?raw=true
+
 
 ### Authors and Contributors
 Nish Dara ([@ndara](https://github.com/ndara))
