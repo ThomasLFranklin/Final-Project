@@ -5,10 +5,12 @@ A keyboard program by Nish Dara, Thomas Franklin, Devon Grove, and Blain Weeks.
 
 
 ### Screenshots
-![Picture][Screenshot]
-[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/menu.png?raw=true
-[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/freeplay.png?raw=true
-[Screenshot]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/playsongs.png?raw=true
+![Picture][Screenshot1]
+![Picture][Screenshot2]
+![Picture][Screenshot3]
+[Screenshot1]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/menu.png?raw=true
+[Screenshot2]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/freeplay.png?raw=true
+[Screenshot3]: https://github.com/ThomasLFranklin/Final-Project/blob/master/graphics/playsongs.png?raw=true
 
 
 ### Authors and Contributors
