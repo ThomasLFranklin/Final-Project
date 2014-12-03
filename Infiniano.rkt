@@ -522,6 +522,13 @@
                  (text "Drag the volume slider to change volume" 22 "white")
                  (text "Drag the metronome slider to change rate of metronome" 22 "white")
                  (text "Use the up and down arrow keys to change octaves" 22 "white")
+                 (text "This is a placeholder to be replaced" 22 "white")
+                 (text "Did you know if a giraffe drank coffee, it would be cold before it got to its stomach" 22 "white")
+                 (text "Of course you didn't, because all you think about is yourself" 22 "white")
+                 (text "What has 6 wheels and flies??? A garbage truck hahaha" 22 "white")
+                 (text "I'm running out of things for placeholders" 22 "white")
+                 (text "DO IT FOR THE RACKETS" 22 "white")
+                 (rectangle 900 550 "solid" box-color)
                  (bitmap/file "graphics/background.jpg"))
                 (list
                  (make-posn 1075 50)
@@ -532,6 +539,13 @@
                  (make-posn (/ len 2) (* wid 8/26))
                  (make-posn (/ len 2) (* wid 10/26))
                  (make-posn (/ len 2) (* wid 12/26))
+                 (make-posn (/ len 2) (* wid 14/26))
+                 (make-posn (/ len 2) (* wid 16/26))
+                 (make-posn (/ len 2) (* wid 18/26))
+                 (make-posn (/ len 2) (* wid 20/26)) 
+                 (make-posn (/ len 2) (* wid 22/26))
+                 (make-posn (/ len 2) (* wid 24/26))
+                 (make-posn (/ len 2) (* wid 29/52))
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
 
@@ -550,7 +564,7 @@
                 
 
 ; Functions for the "play" mode
-; "play" is the main mode for the program, allowing users to play different notes on the keyboard
+; "play" is the main mode for the program, allowing users to play different notes on the keyboard 
 
 ;Constnats for "play" mode
 (define wkeylen 75)
