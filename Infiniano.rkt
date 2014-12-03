@@ -432,7 +432,7 @@
 (define (check-metronome w)
   (cond
     [(met-on? (world-met w)) (if (>= (met-current-time (world-met w)) (/ 1 (+ 1 (/ (met-bpm (world-met w)) 50)))) 
-                                  (both (play ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-on? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) 
+                                  (both (pstream-play ps ding) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-on? (world-met w)) (met-bpm (world-met w)) 0) (world-mode w) (world-demo-mode w))) 
                                   (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (met-on? (world-met w)) (met-bpm (world-met w)) (+ 1/20 (met-current-time (world-met w)))) (world-mode w) (world-demo-mode w)))]
     [else w]))
 
