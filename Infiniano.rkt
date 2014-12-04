@@ -79,38 +79,37 @@
 
 ; Keyhandler functions
 
+(define keymap
+  (map 
+   list
+   (string->list "q2w3er5t6y7uzsxdcvgbhnjm")
+   (range 48 72 1)))
+
+(define chars
+  (map string (string->list "q2w3er5t6y7uzsxdcvgbhnjm")))
+
+
+(check-expect (second (assq #\m keymap)) 71)
+
+;; is this key one of the keyboard keys
+(define (is-keyboard-key? k)
+  (member k chars))
+
+;; given a keyboard key, find the appropirate midi note number
+(define (lookup-key k)
+  (second (assoc (first (string->list k)) keymap)))
+
+(check-expect (lookup-key "m") 71)
+
 ; Function for when the program is in "play" mode
 ; Changes the given changes an element in the keybooleen struct to true when an alpha-numeric key is pressed or
 ; Changes the given world-oct when either the "up" or "down" key is pressed
 ; WorldState keyEvent -> WorldState (plays pstream)
 (define (play+light-up-keys w key)
   (both
-   (cond
-    [(key=? key "q") (play-note (+ 48 (* (world-oct w) 24)) w)]
-    [(key=? key "2") (play-note (+ 49 (* (world-oct w) 24)) w)]
-    [(key=? key "w") (play-note (+ 50 (* (world-oct w) 24)) w)]
-    [(key=? key "3") (play-note (+ 51 (* (world-oct w) 24)) w)]
-    [(key=? key "e") (play-note (+ 52 (* (world-oct w) 24)) w)]
-    [(key=? key "r") (play-note (+ 53 (* (world-oct w) 24)) w)]
-    [(key=? key "5") (play-note (+ 54 (* (world-oct w) 24)) w)]
-    [(key=? key "t") (play-note (+ 55 (* (world-oct w) 24)) w)]
-    [(key=? key "6") (play-note (+ 56 (* (world-oct w) 24)) w)]
-    [(key=? key "y") (play-note (+ 57 (* (world-oct w) 24)) w)]
-    [(key=? key "7") (play-note (+ 58 (* (world-oct w) 24)) w)]
-    [(key=? key "u") (play-note (+ 59 (* (world-oct w) 24)) w)]
-    [(key=? key "z") (play-note (+ 60 (* (world-oct w) 24)) w)]
-    [(key=? key "s") (play-note (+ 61 (* (world-oct w) 24)) w)]
-    [(key=? key "x") (play-note (+ 62 (* (world-oct w) 24)) w)]
-    [(key=? key "d") (play-note (+ 63 (* (world-oct w) 24)) w)]
-    [(key=? key "c") (play-note (+ 64 (* (world-oct w) 24)) w)]
-    [(key=? key "v") (play-note (+ 65 (* (world-oct w) 24)) w)]
-    [(key=? key "g") (play-note (+ 66 (* (world-oct w) 24)) w)]
-    [(key=? key "b") (play-note (+ 67 (* (world-oct w) 24)) w)]
-    [(key=? key "h") (play-note (+ 68 (* (world-oct w) 24)) w)]
-    [(key=? key "n") (play-note (+ 69 (* (world-oct w) 24)) w)]
-    [(key=? key "j") (play-note (+ 70 (* (world-oct w) 24)) w)]
-    [(key=? key "m") (play-note (+ 71 (* (world-oct w) 24)) w)]
-    [else w])
+   (cond 
+     [(is-keyboard-key? key) 
+      (play-note (+ (lookup-key key) (* (world-oct w) 24)) w)])
    (cond
      [(key=? key "q") (make-world (list-change (world-keyList w) 1 #t)
                                   (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
