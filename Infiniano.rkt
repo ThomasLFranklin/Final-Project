@@ -139,7 +139,7 @@
   (cond
     [(string=? (world-mode w) "play") (play+light-up-keys w key)]
     [else w]))
-
+    
 ; Helper function for the on-key function
 ; Plays a note
 ; worldstate number -> sound
@@ -180,9 +180,9 @@
 (define (mousehandler-title w x y me)
   (cond
     [(mouse=? "button-up" me) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "waiver" (world-demo-mode w))]
-    [else w])) 
+    [else w]))
 
-; Function for when the program mode is "waiver" 
+; Function for when the program mode is "waiver"
 ; worldkstate mouse-event -> worldstate
 (define (mousehandler-waiver w x y me)
   (cond
