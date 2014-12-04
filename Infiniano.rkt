@@ -77,8 +77,6 @@
       (list-change (cdr list) (- index 1) value))))
 
 (check-expect (list-change (list 20 10) 1 13) (list 20 13))
-(check-expect (list-change (list 33 21) 1 4) (list 33 4))
-(check-expect (list-change (list 2 5 9 33 5) 3 8) (list 2 5 9 8 5))
 
 ; Keyhandler functions
 
