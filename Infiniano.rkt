@@ -154,56 +154,9 @@
 ; worldstare keyevent -> worldstate
 (define (reset w key)
   (cond
-     [(key=? key "q") (make-world (list-change (world-keyList w) 1 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "2") (make-world (list-change (world-keyList w) 15 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "w") (make-world (list-change (world-keyList w) 2 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "3") (make-world (list-change (world-keyList w) 16 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "e") (make-world (list-change (world-keyList w) 3 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "r") (make-world (list-change (world-keyList w) 4 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "5") (make-world (list-change (world-keyList w) 17 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "t") (make-world (list-change (world-keyList w) 5 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "6") (make-world (list-change (world-keyList w) 18 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "y") (make-world (list-change (world-keyList w) 6 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "7") (make-world (list-change (world-keyList w) 19 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "u") (make-world (list-change (world-keyList w) 7 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "z") (make-world (list-change (world-keyList w) 8 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "s") (make-world (list-change (world-keyList w) 20 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "x") (make-world (list-change (world-keyList w) 9 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "d") (make-world (list-change (world-keyList w) 21 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "c") (make-world (list-change (world-keyList w) 10 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "v") (make-world (list-change (world-keyList w) 11 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "g") (make-world (list-change (world-keyList w) 22 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "b") (make-world (list-change (world-keyList w) 12 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "h") (make-world (list-change (world-keyList w) 23 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "n") (make-world (list-change (world-keyList w) 13 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "j") (make-world (list-change (world-keyList w) 24 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "m") (make-world (list-change (world-keyList w) 14 #f)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [else w]
-  ))
+    [(is-keyboard-key? key) 
+      (make-world (list-change (world-keyList w) (lookup-key2 key) #f) (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
+    [else w]))
 
 ; Key-release handler function
 ; Passes the worldstate and key-release event to a helper function based on the world-mode of the world
@@ -372,14 +325,6 @@
 ; Just like all the other functions, the on-tick function is determined by the mode of the program.
 
 ; Metronome functions
-; Checks whether the metronome is running or not
-#;(define (check-metronome w)
-  (cond [(world-met w) (play-metronome (met-bpm (world-met w)))]
-        [else w]))
-; Makes a metronome when it is supposed to be playing.
-#;(define (play-metronome bpm)
-  ())
-
 ; On-tick function for demo mode
 ; Passes the list of notes to the play-song function to be played.
 (define (on-tick-for-demo-songs w) (extract-list w))
@@ -510,6 +455,19 @@
                  (make-posn (/ len 2) (* wid 22/26))
                  (make-posn (/ len 2) (* wid 24/26))
                  (make-posn (/ len 2) (* wid 29/52))
+                 (make-posn (/ len 2) (/ wid 2)))
+                (rectangle len wid "solid" box-color)))
+
+; Functions for the "record" mode
+; Record allows the user to record a series of notes being played
+(define (record w)
+  (place-images (list
+                 (text "Menu" 30 "white")
+                 (rectangle 100 50 "solid" box-color)
+                 (bitmap/file "graphics/background.jpg"))
+                (list
+                 (make-posn 1075 50)
+                 (make-posn 1075 50)
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
                 
@@ -719,62 +677,27 @@
 
 
 ; Main renedering for the "play" mode
-(define (record-keyboard w)
-  (place-images
-   (list
-    (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
-    (text "Q" 18 box-color)
-    (text "W" 18 box-color)
-    (text "E" 18 box-color)
-    (text "R" 18 box-color)
-    (text "T" 18 box-color)
-    (text "Y" 18 box-color)
-    (text "U" 18 box-color)
-    (text "Z" 18 box-color)
-    (text "X" 18 box-color)
-    (text "C" 18 box-color)
-    (text "V" 18 box-color)
-    (text "B" 18 box-color)
-    (text "N" 18 box-color)
-    (text "M" 18 box-color)
-    (text1 w)
-    (black-keys w)
-    (key-outlines w)
-    (white-keys w)
-    (text "Menu" 30 "white")
-    (rectangle 100 50 "solid" box-color)
-    (bitmap/file "graphics/background.jpg"))
-   (list
-    (make-posn (/ len 2) 55)
-    (make-posn (* len 3/32) (/ wid 2))
-    (make-posn (* len 5/32) (/ wid 2))
-    (make-posn (* len 7/32) (/ wid 2))
-    (make-posn (* len 9/32) (/ wid 2))
-    (make-posn (* len 11/32) (/ wid 2))
-    (make-posn (* len 13/32) (/ wid 2))
-    (make-posn (* len 15/32) (/ wid 2))
-    (make-posn (* len 17/32) (/ wid 2))
-    (make-posn (* len 19/32) (/ wid 2))
-    (make-posn (* len 21/32) (/ wid 2))
-    (make-posn (* len 23/32) (/ wid 2))
-    (make-posn (* len 25/32) (/ wid 2))
-    (make-posn (* len 27/32) (/ wid 2))
-    (make-posn (* len 29/32) (/ wid 2))
-    (make-posn (* len 3/4) (* wid 5/6))
-    (make-posn (/ len 2) (/ wid 2))
-    (make-posn (/ len 2) (/ wid 2))
-    (make-posn (/ len 2) (/ wid 2))
-    (make-posn 1075 50)
-    (make-posn 1075 50)
-    (make-posn (/ len 2) (/ wid 2)))
-   (rectangle len wid "solid" box-color)))
-  
 (define (key-board w) (place-images
                        (list
+                        (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
                         (text "Volume" 16 "white")
                         (text "Metronome" 16 "white")
                         (volume-slider w)
                         (metronome-slider w)
+                        (text "Q" 18 box-color)
+                        (text "W" 18 box-color)
+                        (text "E" 18 box-color)
+                        (text "R" 18 box-color)
+                        (text "T" 18 box-color)
+                        (text "Y" 18 box-color)
+                        (text "U" 18 box-color)
+                        (text "Z" 18 box-color)
+                        (text "X" 18 box-color)
+                        (text "C" 18 box-color)
+                        (text "V" 18 box-color)
+                        (text "B" 18 box-color)
+                        (text "N" 18 box-color)
+                        (text "M" 18 box-color)
                         inst1text
                         inst2text
                         inst3text
@@ -792,12 +715,33 @@
                         (rectangle 8 8 "solid" (if (= (world-inst w) 7) "yellow" box-color))
                         (rectangle 8 8 "solid" (if (= (world-inst w) 8) "yellow" box-color))
                         (text2 w)
-                        (record-keyboard w))
+                        (text1 w)
+                        (black-keys w)
+                        (key-outlines w)
+                        (white-keys w)
+                        (text "Menu" 30 "white")
+                        (rectangle 100 50 "solid" box-color)
+                        (bitmap/file "graphics/background.jpg"))
                        (list
+                        (make-posn (/ len 2) 55)
                         (make-posn (- (/ len 2) 40) (- (* wid 5/6) 100))
                         (make-posn (+ (/ len 2) 40) (- (* wid 5/6) 100))
                         (make-posn (/ len 2) (/ wid 2))
                         (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (* len 3/32) (/ wid 2))
+                        (make-posn (* len 5/32) (/ wid 2))
+                        (make-posn (* len 7/32) (/ wid 2))
+                        (make-posn (* len 9/32) (/ wid 2))
+                        (make-posn (* len 11/32) (/ wid 2))
+                        (make-posn (* len 13/32) (/ wid 2))
+                        (make-posn (* len 15/32) (/ wid 2))
+                        (make-posn (* len 17/32) (/ wid 2))
+                        (make-posn (* len 19/32) (/ wid 2))
+                        (make-posn (* len 21/32) (/ wid 2))
+                        (make-posn (* len 23/32) (/ wid 2))
+                        (make-posn (* len 25/32) (/ wid 2))
+                        (make-posn (* len 27/32) (/ wid 2))
+                        (make-posn (* len 29/32) (/ wid 2))
                         (make-posn (+ (* len 9/64) (/ (image-width inst1text) 2)) (* wid 4/5))
                         (make-posn (+ (* len 9/64) (/ (image-width inst2text) 2)) (+ (* wid 4/5) 26))
                         (make-posn (+ (* len 9/64) (/ (image-width inst3text) 2)) (+ (* wid 4/5) 52))
@@ -815,6 +759,12 @@
                         (make-posn (- (* len 19/64) 12) (+ (* wid 4/5) 52))
                         (make-posn (- (* len 19/64) 12) (+ (* wid 4/5) 78))
                         (make-posn (* len 1/4) (* wid 5/6))
+                        (make-posn (* len 3/4) (* wid 5/6))
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn (/ len 2) (/ wid 2))
+                        (make-posn 1075 50)
+                        (make-posn 1075 50)
                         (make-posn (/ len 2) (/ wid 2)))
                        (rectangle len wid "solid" box-color)))
 
@@ -874,7 +824,7 @@
     [(string=? (world-mode w) "play") (key-board w)]
     [(string=? (world-mode w) "demo") (demo w)]
     [(string=? (world-mode w) "instructions") (instructions w)]
-    [(string=? (world-mode w) "record") (record-keyboard w)]
+    [(string=? (world-mode w) "record") (record w)]
     ))
  
 ; Main function that runs the program
