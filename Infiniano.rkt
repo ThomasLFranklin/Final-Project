@@ -117,7 +117,8 @@
   (both
    (cond 
      [(is-keyboard-key? key) 
-      (play-note (+ (lookup-key key) (* (world-oct w) 24)) w)])
+      (play-note (+ (lookup-key key) (* (world-oct w) 24)) w)]
+     [else w])
    (cond
      [(is-keyboard-key? key) 
       (make-world (list-change (world-keyList w) (lookup-key2 key) #t) (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
@@ -486,20 +487,11 @@
 ; Color change functions
 ; Change the color of the on screen keyboard when a key is held or released
 ; worldstate -> image
-(define (wk1 w) (if (and (list-ref (world-keyList w) 1) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk2 w) (if (and (list-ref (world-keyList w) 2) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk3 w) (if (and (list-ref (world-keyList w) 3) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk4 w) (if (and (list-ref (world-keyList w) 4) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk5 w) (if (and (list-ref (world-keyList w) 5) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk6 w) (if (and (list-ref (world-keyList w) 6) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk7 w) (if (and (list-ref (world-keyList w) 7) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk8 w) (if (and (list-ref (world-keyList w) 8) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk9 w) (if (and (list-ref (world-keyList w) 9) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk10 w) (if (and (list-ref (world-keyList w) 10) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk11 w) (if (and (list-ref (world-keyList w) 11) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk12 w) (if (and (list-ref (world-keyList w) 12) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk13 w) (if (and (list-ref (world-keyList w) 13) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
-(define (wk14 w) (if (and (list-ref (world-keyList w) 14) #t) (rectangle wkeylen wkeywid "solid" "yellow") (rectangle wkeylen wkeywid "solid" "white")))
+(define (drawkey n world)
+  (if (and (list-ref (world-keyList world) n) #t)
+      (rectangle wkeylen wkeywid "solid" "yellow")
+      (rectangle wkeylen wkeywid "solid" "white")))
+
 (define (bk1 w) (if (and (list-ref (world-keyList w) 15) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
 (define (bk2 w) (if (and (list-ref (world-keyList w) 16) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
 (define (bk3 w) (if (and (list-ref (world-keyList w) 17) #t) (rectangle bkeylen bkeywid "solid" "yellow") (rectangle bkeylen bkeywid "solid" "black")))
@@ -527,20 +519,24 @@
                                               (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")
                                               (rectangle wkeylen wkeywid "outline" "black")) (/ len 2) wkey-y-pos (rectangle len wid "outline" box-color)))
-(define (white-keys w) (place-image (beside (wk1 w)
-                                            (wk2 w)
-                                            (wk3 w)
-                                            (wk4 w)
-                                            (wk5 w)
-                                            (wk6 w)
-                                            (wk7 w)
-                                            (wk8 w)
-                                            (wk9 w)
-                                            (wk10 w)
-                                            (wk11 w)
-                                            (wk12 w)
-                                            (wk13 w)
-                                            (wk14 w)) (/ len 2) wkey-y-pos (rectangle len wid "outline" box-color)))
+;; place a list of things beside each other
+(define (list-beside l)
+  (foldr beside INVISIBLE-RECTANGLE l))
+
+;; a rectangle that's invisible (used as base case for list-beside)
+(define INVISIBLE-RECTANGLE (rectangle 0 0 "solid" "black"))
+
+(define (wkfun n w) (drawkey n w))
+
+(define (white-keys w) 
+  (place-image (list-beside
+                (map (lambda (n)
+                       (wkfun n w))
+                     (range 1 15 1)))
+               (/ len 2)
+               wkey-y-pos
+               (rectangle len wid "outline" box-color)))
+
 (define (black-keys w) (place-images 
                         (list 
                          (text "2" 18 box-color)
