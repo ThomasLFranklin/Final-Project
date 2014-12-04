@@ -1,7 +1,7 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
-; Electronic Keyboard Program
+; Infiniano
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
 ; Required Packages
@@ -19,11 +19,6 @@
 (check-expect (s 2) 88200)
 (check-expect (s 0) 0)
 
-; Program Features Wishlist and Bug Fixes:
-;  Metronome feature
-;  Demo songs feature-get the songs to stop!
-;  Recording feature
-;  Preset Beats
 
 ; initial state of the keyList element of the WorldState
 (define INITIAL_KEYBOARD (list "plholder" #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f #f))
