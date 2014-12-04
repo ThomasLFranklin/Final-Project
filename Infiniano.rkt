@@ -76,6 +76,8 @@
         (car list))
       (list-change (cdr list) (- index 1) value))))
 
+(check-expect (list-change (list 20 10) 1 13) (list 20 13))
+
 ; Keyhandler functions
 
 (define keymap
