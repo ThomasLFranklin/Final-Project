@@ -106,6 +106,8 @@
 ;; is this key one of the keyboard keys
 (define (is-keyboard-key? k)
   (member k chars))
+(check-expect (is-keyboard-key? "w") true)
+(check-expect (is-keyboard-key? "p") false)
 
 ;; given a keyboard key, find the appropirate midi note number
 (define (lookup-key k)
