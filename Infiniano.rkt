@@ -85,6 +85,15 @@
 (define chars
   (map string (string->list "q2w3er5t6y7uzsxdcvgbhnjm")))
 
+(define key-chars
+  (map string (string->list "qwertyuzxcvbnm23567sdghj")))
+
+(define keymap2
+  (map 
+   list
+   (string->list "qwertyuzxcvbnm23567sdghj")
+   (range 1 25 1)))
+
 
 (check-expect (second (assq #\m keymap)) 71)
 
@@ -95,6 +104,8 @@
 ;; given a keyboard key, find the appropirate midi note number
 (define (lookup-key k)
   (second (assoc (first (string->list k)) keymap)))
+(define (lookup-key2 k)
+  (second (assoc (first (string->list k)) keymap2)))
 
 (check-expect (lookup-key "m") 71)
 
@@ -108,54 +119,8 @@
      [(is-keyboard-key? key) 
       (play-note (+ (lookup-key key) (* (world-oct w) 24)) w)])
    (cond
-     [(key=? key "q") (make-world (list-change (world-keyList w) 1 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "2") (make-world (list-change (world-keyList w) 15 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "w") (make-world (list-change (world-keyList w) 2 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "3") (make-world (list-change (world-keyList w) 16 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "e") (make-world (list-change (world-keyList w) 3 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "r") (make-world (list-change (world-keyList w) 4 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "5") (make-world (list-change (world-keyList w) 17 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "t") (make-world (list-change (world-keyList w) 5 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "6") (make-world (list-change (world-keyList w) 18 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "y") (make-world (list-change (world-keyList w) 6 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "7") (make-world (list-change (world-keyList w) 19 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "u") (make-world (list-change (world-keyList w) 7 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "z") (make-world (list-change (world-keyList w) 8 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "s") (make-world (list-change (world-keyList w) 20 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "x") (make-world (list-change (world-keyList w) 9 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "d") (make-world (list-change (world-keyList w) 21 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "c") (make-world (list-change (world-keyList w) 10 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "v") (make-world (list-change (world-keyList w) 11 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "g") (make-world (list-change (world-keyList w) 22 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "b") (make-world (list-change (world-keyList w) 12 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "h") (make-world (list-change (world-keyList w) 23 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "n") (make-world (list-change (world-keyList w) 13 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "j") (make-world (list-change (world-keyList w) 24 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
-     [(key=? key "m") (make-world (list-change (world-keyList w) 14 #t)
-                                  (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
+     [(is-keyboard-key? key) 
+      (make-world (list-change (world-keyList w) (lookup-key2 key) #t) (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
      [(key=? key "up") (if (< (world-oct w) 1) (make-world (world-keyList w) (world-inst w) (+ (world-oct w) 1) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w)) w)]
      [(key=? key "down") (if (> (world-oct w) -1) (make-world (world-keyList w) (world-inst w) (- (world-oct w) 1) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w)) w)]
      [else w])))
