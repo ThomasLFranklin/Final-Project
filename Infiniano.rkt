@@ -16,6 +16,8 @@
 (define (both a b) b)
 (define (s seconds)
   (* 44100 seconds))
+(check-expect (s 2) 88200)
+(check-expect (s 0) 0)
 
 ; Program Features Wishlist and Bug Fixes:
 ;  Metronome feature
