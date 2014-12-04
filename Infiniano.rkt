@@ -1,9 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
 ; Electronic Keyboard Program
 ;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
 
@@ -550,19 +547,6 @@
                  (make-posn (/ len 2) (* wid 29/52))
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
-
-; Functions for the "record" mode
-; Record allows the user to record a series of notes being played
-(define (record w)
-  (place-images (list
-                 (text "Menu" 30 "white")
-                 (rectangle 100 50 "solid" box-color)
-                 (bitmap/file "graphics/background.jpg"))
-                (list
-                 (make-posn 1075 50)
-                 (make-posn 1075 50)
-                 (make-posn (/ len 2) (/ wid 2)))
-                (rectangle len wid "solid" box-color)))
                 
 
 ; Functions for the "play" mode
@@ -770,6 +754,56 @@
 
 
 ; Main renedering for the "play" mode
+(define (record-keyboard w)
+  (place-images
+   (list
+    (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
+    (text "Q" 18 box-color)
+    (text "W" 18 box-color)
+    (text "E" 18 box-color)
+    (text "R" 18 box-color)
+    (text "T" 18 box-color)
+    (text "Y" 18 box-color)
+    (text "U" 18 box-color)
+    (text "Z" 18 box-color)
+    (text "X" 18 box-color)
+    (text "C" 18 box-color)
+    (text "V" 18 box-color)
+    (text "B" 18 box-color)
+    (text "N" 18 box-color)
+    (text "M" 18 box-color)
+    (text1 w)
+    (black-keys w)
+    (key-outlines w)
+    (white-keys w)
+    (text "Menu" 30 "white")
+    (rectangle 100 50 "solid" box-color)
+    (bitmap/file "graphics/background.jpg"))
+   (list
+    (make-posn (/ len 2) 55)
+    (make-posn (* len 3/32) (/ wid 2))
+    (make-posn (* len 5/32) (/ wid 2))
+    (make-posn (* len 7/32) (/ wid 2))
+    (make-posn (* len 9/32) (/ wid 2))
+    (make-posn (* len 11/32) (/ wid 2))
+    (make-posn (* len 13/32) (/ wid 2))
+    (make-posn (* len 15/32) (/ wid 2))
+    (make-posn (* len 17/32) (/ wid 2))
+    (make-posn (* len 19/32) (/ wid 2))
+    (make-posn (* len 21/32) (/ wid 2))
+    (make-posn (* len 23/32) (/ wid 2))
+    (make-posn (* len 25/32) (/ wid 2))
+    (make-posn (* len 27/32) (/ wid 2))
+    (make-posn (* len 29/32) (/ wid 2))
+    (make-posn (* len 3/4) (* wid 5/6))
+    (make-posn (/ len 2) (/ wid 2))
+    (make-posn (/ len 2) (/ wid 2))
+    (make-posn (/ len 2) (/ wid 2))
+    (make-posn 1075 50)
+    (make-posn 1075 50)
+    (make-posn (/ len 2) (/ wid 2)))
+   (rectangle len wid "solid" box-color)))
+  
 (define (key-board w) (place-images
                        (list
                         (text/font "Infiniano" 60 "white" "Palatino Linotype" 'default 'italic 'normal #f)
@@ -917,7 +951,7 @@
     [(string=? (world-mode w) "play") (key-board w)]
     [(string=? (world-mode w) "demo") (demo w)]
     [(string=? (world-mode w) "instructions") (instructions w)]
-    [(string=? (world-mode w) "record") (record w)]
+    [(string=? (world-mode w) "record") (record-keyboard w)]
     ))
  
 ; Main function that runs the program
