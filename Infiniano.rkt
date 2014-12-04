@@ -387,7 +387,7 @@
 (define (waiver w)
   (place-images (list
                  (text "Click to Accept Terms and Conditions and Advance to Main Menu" 22 "white")
-                 (bitmap/file "Infiniano-waiver.jpg")
+                 (bitmap/file "graphics/Infiniano-waiver.jpg")
                  (bitmap/file "graphics/background.jpg")
                  )
                 (list
