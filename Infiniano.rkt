@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
@@ -10,12 +11,25 @@
    This file uses the GRacket editor format.
    Open this file in DrRacket version 6.1 or later to read it.
 >>>>>>> origin/master
+=======
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname Infiniano) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")))))
+; Electronic Keyboard Program
+;   By Thomas Franklin, Nish Dara, Blain Weeks, Devon Grove
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
 
-   Most likely, it was created by saving a program in DrRacket,
-   and it probably contains a program with non-text elements
-   (such as images or comment boxes).
+; Required Packages
+(require "songs/Songs.rkt")
+(require rsound)
+(require rsound/piano-tones)
+(require 2htdp/image)
+(require 2htdp/universe)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
 ; Useful functions and definitions
 (define ps (make-pstream))
 (define (both a b) b)
@@ -81,6 +95,7 @@
 
 ; Keyhandler functions
 
+<<<<<<< HEAD
 (define keymap
   (map 
    list
@@ -103,15 +118,46 @@
 
 (check-expect (lookup-key "m") 71)
 
+=======
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
 ; Function for when the program is in "play" mode
 ; Changes the given changes an element in the keybooleen struct to true when an alpha-numeric key is pressed or
 ; Changes the given world-oct when either the "up" or "down" key is pressed
 ; WorldState keyEvent -> WorldState (plays pstream)
 (define (play+light-up-keys w key)
   (both
+<<<<<<< HEAD
    (cond 
      [(is-keyboard-key? key) 
       (play-note (+ (lookup-key key) (* (world-oct w) 24)) w)])
+=======
+   (cond
+    [(key=? key "q") (play-note (+ 48 (* (world-oct w) 24)) w)]
+    [(key=? key "2") (play-note (+ 49 (* (world-oct w) 24)) w)]
+    [(key=? key "w") (play-note (+ 50 (* (world-oct w) 24)) w)]
+    [(key=? key "3") (play-note (+ 51 (* (world-oct w) 24)) w)]
+    [(key=? key "e") (play-note (+ 52 (* (world-oct w) 24)) w)]
+    [(key=? key "r") (play-note (+ 53 (* (world-oct w) 24)) w)]
+    [(key=? key "5") (play-note (+ 54 (* (world-oct w) 24)) w)]
+    [(key=? key "t") (play-note (+ 55 (* (world-oct w) 24)) w)]
+    [(key=? key "6") (play-note (+ 56 (* (world-oct w) 24)) w)]
+    [(key=? key "y") (play-note (+ 57 (* (world-oct w) 24)) w)]
+    [(key=? key "7") (play-note (+ 58 (* (world-oct w) 24)) w)]
+    [(key=? key "u") (play-note (+ 59 (* (world-oct w) 24)) w)]
+    [(key=? key "z") (play-note (+ 60 (* (world-oct w) 24)) w)]
+    [(key=? key "s") (play-note (+ 61 (* (world-oct w) 24)) w)]
+    [(key=? key "x") (play-note (+ 62 (* (world-oct w) 24)) w)]
+    [(key=? key "d") (play-note (+ 63 (* (world-oct w) 24)) w)]
+    [(key=? key "c") (play-note (+ 64 (* (world-oct w) 24)) w)]
+    [(key=? key "v") (play-note (+ 65 (* (world-oct w) 24)) w)]
+    [(key=? key "g") (play-note (+ 66 (* (world-oct w) 24)) w)]
+    [(key=? key "b") (play-note (+ 67 (* (world-oct w) 24)) w)]
+    [(key=? key "h") (play-note (+ 68 (* (world-oct w) 24)) w)]
+    [(key=? key "n") (play-note (+ 69 (* (world-oct w) 24)) w)]
+    [(key=? key "j") (play-note (+ 70 (* (world-oct w) 24)) w)]
+    [(key=? key "m") (play-note (+ 71 (* (world-oct w) 24)) w)]
+    [else w])
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
    (cond
      [(key=? key "q") (make-world (list-change (world-keyList w) 1 #t)
                                   (world-inst w) (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
@@ -526,6 +572,16 @@
                  (text "Drag the volume slider to change volume" 22 "white")
                  (text "Drag the metronome slider to change rate of metronome" 22 "white")
                  (text "Use the up and down arrow keys to change octaves" 22 "white")
+<<<<<<< HEAD
+=======
+                 (text "This is a placeholder to be replaced" 22 "white")
+                 (text "Did you know if a giraffe drank coffee, it would be cold before it got to its stomach" 22 "white")
+                 (text "Of course you didn't, because all you think about is yourself" 22 "white")
+                 (text "What has 6 wheels and flies??? A garbage truck hahaha" 22 "white")
+                 (text "I'm running out of things for placeholders" 22 "white")
+                 (text "DO IT FOR THE RACKETS" 22 "white")
+                 (rectangle 900 550 "solid" box-color)
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
                  (bitmap/file "graphics/background.jpg"))
                 (list
                  (make-posn 1075 50)
@@ -536,6 +592,16 @@
                  (make-posn (/ len 2) (* wid 8/26))
                  (make-posn (/ len 2) (* wid 10/26))
                  (make-posn (/ len 2) (* wid 12/26))
+<<<<<<< HEAD
+=======
+                 (make-posn (/ len 2) (* wid 14/26))
+                 (make-posn (/ len 2) (* wid 16/26))
+                 (make-posn (/ len 2) (* wid 18/26))
+                 (make-posn (/ len 2) (* wid 20/26)) 
+                 (make-posn (/ len 2) (* wid 22/26))
+                 (make-posn (/ len 2) (* wid 24/26))
+                 (make-posn (/ len 2) (* wid 29/52))
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
 
@@ -554,7 +620,11 @@
                 
 
 ; Functions for the "play" mode
+<<<<<<< HEAD
 ; "play" is the main mode for the program, allowing users to play different notes on the keyboard
+=======
+; "play" is the main mode for the program, allowing users to play different notes on the keyboard 
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
 
 ;Constnats for "play" mode
 (define wkeylen 75)
@@ -910,6 +980,7 @@
  
 ; Main function that runs the program
 (main INITIAL_STATE)
+<<<<<<< HEAD
 =======
             http://racket-lang.org/
 |#
@@ -14334,3 +14405,5 @@
 0 0 24 29 1 #"\n"
 0           0
 >>>>>>> origin/master
+=======
+>>>>>>> 2041735e145b47c98c0a094bcd990e502ec20284
