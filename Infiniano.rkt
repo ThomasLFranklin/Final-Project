@@ -114,6 +114,7 @@
   (second (assoc (first (string->list k)) keymap2)))
 
 (check-expect (lookup-key "m") 71)
+(check-expect (lookup-key2 "q") 1)
 
 ; Function for when the program is in "play" mode
 ; Changes the given changes an element in the keybooleen struct to true when an alpha-numeric key is pressed or
