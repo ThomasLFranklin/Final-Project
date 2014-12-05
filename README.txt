@@ -1,4 +1,7 @@
 Infiniano(R): The Infinite Piano
+
+      by N. Dara, T. Franklin, D. Grove, and B. Weeks.
+
   WWW: http://github.com/ThomasLFranklin/Final-Project/
 
 The documentation for Infiniano is licensed under the Creative Commons
