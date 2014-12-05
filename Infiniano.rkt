@@ -218,7 +218,7 @@
                                   [(and (> x (- (- (* len 19/64) 12) 4)) (< x (+ (- (* len 19/64) 12) 4)) (> y (+ (* wid 4/5) 74)) (< y (+ (* wid 4/5) 82))) (make-world (world-keyList w) 8 (world-oct w) (world-vol w) (world-met w) (world-mode w) (world-demo-mode w))]
                                   [(and (> x 1025) (< x 1125) (> y 25) (< y 75)) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (world-met w) "main menu" (world-demo-mode w))]
                                   [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (if (= 0 (world-vol w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 1 (world-met w) (world-mode w) (world-demo-mode w)) (make-world (world-keyList w) (world-inst w) (world-oct w) 0 (world-met w) (world-mode w) (world-demo-mode w)))]
-                                  [(and (< x (+ (/ len 2) 50)) (> x (+ (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met #t (met-bpm (world-met w)) (met-current-time (world-met w))) (world-mode w) (world-demo-mode w))]
+                                  [(and (< x (+ (/ len 2) 50)) (> x (+ (/ len 2) 30)) (> y (- (* wid 5/6) 105)) (< y (- (* wid 5/6) 85))) (make-world (world-keyList w) (world-inst w) (world-oct w) (world-vol w) (make-met (not (met-on? (world-met w))) (met-bpm (world-met w)) (met-current-time (world-met w))) (world-mode w) (world-demo-mode w))]
                                   [else w])]
     [(mouse=? "drag" me) (cond
                            [(and (> x (- (/ len 2) 50)) (< x (- (/ len 2) 30)) (> y (- (* wid 5/6) 75)) (< y (+ (* wid 5/6) 75))) (make-world (world-keyList w) (world-inst w) (world-oct w) (- 1 (/ (- y (- (* wid 5/6) 75)) 150)) (world-met w) (world-mode w) (world-demo-mode w))]
@@ -417,16 +417,16 @@
                  (text "Play Mode" 30 "white")
                  (text "Use keys on the keyboard to play the respective keys on the piano" 22 "white")
                  (text "Click on boxes next to the instrument to change the instrument played" 22 "white")
-                 (text "Drag the volume slider to change volume" 22 "white")
-                 (text "Drag the metronome slider to change rate of metronome" 22 "white")
                  (text "Use the up and down arrow keys to change octaves" 22 "white")
-                 (text "This is a placeholder to be replaced" 22 "white")
-                 (text "Did you know if a giraffe drank coffee, it would be cold before it got to its stomach" 22 "white")
-                 (text "Of course you didn't, because all you think about is yourself" 22 "white")
-                 (text "What has 6 wheels and flies??? A garbage truck hahaha" 22 "white")
-                 (text "I'm running out of things for placeholders" 22 "white")
-                 (text "DO IT FOR THE RACKETS" 22 "white")
-                 (rectangle 900 550 "solid" box-color)
+                 (text "Drag the volume slider to change volume" 22 "white")
+                 (text "Click on the metronome to turn it on" 22 "white")
+                 (text "Drag the metronome slider to change rate of metronome" 22 "white")
+                 (text "Demo Mode" 30 "white")
+                 (text "Click on a song from the list of preset songs to start it playing" 22 "white")
+                 (text "Press the stop button to stop it" 22 "white")
+                 (text "The stop button resets all songs to the beginning" 22 "white")
+                 (text "HAVE FUN" 22 "white")
+                 (rectangle 800 600 "solid" box-color)
                  (bitmap/file "graphics/background.jpg"))
                 (list
                  (make-posn 1075 50)
@@ -443,7 +443,7 @@
                  (make-posn (/ len 2) (* wid 20/26)) 
                  (make-posn (/ len 2) (* wid 22/26))
                  (make-posn (/ len 2) (* wid 24/26))
-                 (make-posn (/ len 2) (* wid 29/52))
+                 (make-posn (/ len 2) (/ wid 2))
                  (make-posn (/ len 2) (/ wid 2)))
                 (rectangle len wid "solid" box-color)))
 
